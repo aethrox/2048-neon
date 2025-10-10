@@ -1,73 +1,210 @@
-/* ============================================================================
-   LAYOUT & CONTAINER
-   ============================================================================ */
+/**
+ * container.css - Main Container and Layout Styles
+ * Container, header, and game layout structures
+ */
 
 .container {
     width: 100%;
-    max-width: 1200px;
+    max-width: 800px;
     margin: 0 auto;
     padding: 20px;
     position: relative;
     z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
 }
 
 .header {
     text-align: center;
-    margin-bottom: 20px;
+    width: 100%;
 }
 
-.game-layout {
-    display: flex;
-    gap: 30px;
-    justify-content: center;
-    align-items: flex-start;
-}
-
-.sidebar {
-    display: flex;
-    flex-direction: column;
-    gap: 25px;
-    min-width: 180px;
-    max-width: 200px;
-}
-
-.game-intro {
-    text-align: center;
-    margin-bottom: 20px;
-}
-
-.game-intro p {
-    font-size: 19px;
-    margin-bottom: 20px;
+h1 {
+    font-size: 80px;
+    line-height: 1.1;
     color: #00ffff;
-    text-shadow: 0 0 5px rgba(0, 255, 255, 0.5);
-    line-height: 1.6;
-    font-weight: 500;
+    text-shadow: 
+        0 0 10px #00ffff,
+        0 0 20px #00ffff,
+        0 0 30px #00ffff,
+        0 0 70px #ff00ff;
+    font-weight: 900;
+    letter-spacing: 8px;
 }
 
-.game-intro strong {
+.score-container {
+    display: flex;
+    flex-direction: row;
+    gap: 15px;
+    justify-content: center;
+    width: 100%;
+    max-width: 500px;
+}
+
+.score-box {
+    background: rgba(0, 255, 255, 0.1);
+    color: #00ffff;
+    padding: 12px 20px;
+    border-radius: 8px;
+    text-align: center;
+    flex: 1;
+    border: 2px solid #00ffff;
+    box-shadow: 
+        0 0 10px rgba(0, 255, 255, 0.5),
+        inset 0 0 10px rgba(0, 255, 255, 0.2);
+}
+
+.score-title {
+    display: block;
+    font-size: 14px;
+    text-transform: uppercase;
     color: #ff00ff;
     text-shadow: 0 0 5px #ff00ff;
 }
 
-.game-controls {
-    display: flex;
-    gap: 15px;
-    justify-content: center;
-    flex-wrap: wrap;
+#score, #best-score {
+    font-size: 20px;
+    font-weight: bold;
+    text-shadow: 0 0 10px #00ffff;
+}
+
+.game-intro {
+    width: 100%;
+    text-align: center;
+}
+
+.game-intro p {
+    text-align: center;
+    margin: 0;
+    color: #00ffff;
+    text-shadow: 0 0 5px #00ffff;
 }
 
 .game-explanation {
     text-align: center;
-    margin-top: 20px;
-    font-size: 15px;
-    line-height: 1.8;
+    font-size: 14px;
+    line-height: 1.6;
     color: #00ffff;
     text-shadow: 0 0 5px rgba(0, 255, 255, 0.5);
-    font-weight: 500;
+    max-width: 600px;
+    margin: 0 auto;
 }
 
 .game-explanation strong {
     color: #ff00ff;
     text-shadow: 0 0 5px #ff00ff;
+}
+
+/* Game Layout - Board and Power-ups Side by Side */
+.game-layout {
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
+    justify-content: center;
+    width: 100%;
+    max-width: 800px;
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+    .container {
+        padding: 15px 10px;
+        max-width: 100%;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+    }
+    
+    .game-layout {
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+    }
+    
+    h1 {
+        font-size: 50px;
+        letter-spacing: 3px;
+    }
+    
+    .header {
+        margin-bottom: 15px;
+    }
+    
+    .score-box {
+        min-width: 65px;
+        padding: 3px 10px;
+    }
+    
+    .score-title {
+        font-size: 11px;
+    }
+    
+    #score, #best-score {
+        font-size: 18px;
+    }
+    
+    .game-intro {
+        margin-bottom: 15px;
+    }
+    
+    .game-intro p {
+        font-size: 13px;
+    }
+    
+    .game-explanation {
+        font-size: 12px;
+        padding: 0 10px;
+    }
+}
+
+@media (max-width: 480px) {
+    h1 {
+        font-size: 40px;
+        letter-spacing: 2px;
+    }
+    
+    .score-box {
+        min-width: 55px;
+        padding: 3px 8px;
+    }
+    
+    .score-title {
+        font-size: 10px;
+    }
+    
+    #score, #best-score {
+        font-size: 16px;
+    }
+    
+    .game-intro p {
+        font-size: 12px;
+    }
+}
+
+/* Landscape mode for mobile */
+@media (max-width: 768px) and (orientation: landscape) {
+    .container {
+        flex-direction: row;
+        flex-wrap: wrap;
+        height: 100vh;
+        overflow: hidden;
+    }
+    
+    .header {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+    
+    .game-intro {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+    
+    .game-explanation {
+        width: 100%;
+        font-size: 11px;
+    }
 }

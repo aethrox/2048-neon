@@ -1,0 +1,70 @@
+/**
+ * grid.css - Game Grid Layout
+ * Grid container and cell styles
+ */
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-gap: 15px;
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.cell {
+    width: 100%;
+    padding-bottom: 100%;
+    background: rgba(0, 255, 255, 0.05);
+    border-radius: 5px;
+    position: relative;
+    border: 1px solid rgba(0, 255, 255, 0.2);
+    box-shadow: inset 0 0 10px rgba(0, 255, 255, 0.1);
+    z-index: -1;
+}
+
+.game-container {
+    position: relative;
+    background: rgba(10, 14, 39, 0.8);
+    border-radius: 10px;
+    padding: 15px;
+    border: 2px solid #00ffff;
+    box-shadow: 
+        0 0 30px rgba(0, 255, 255, 0.3),
+        inset 0 0 30px rgba(255, 0, 255, 0.1);
+    width: 100%;
+    max-width: 480px;
+    aspect-ratio: 1;
+    flex-shrink: 0;
+}
+
+/* Mobile Optimizations for Grid */
+@media (max-width: 768px) {
+    .game-container {
+        max-width: 90vw;
+        width: 100%;
+        flex: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        max-height: 60vh;
+        margin-bottom: 15px;
+    }
+    
+    .grid {
+        width: 100%;
+        height: 100%;
+        max-width: min(90vw, 60vh);
+        max-height: min(90vw, 60vh);
+        aspect-ratio: 1;
+    }
+}
+
+/* Landscape mode for mobile */
+@media (max-width: 768px) and (orientation: landscape) {
+    .game-container {
+        max-height: 70vh;
+        max-width: 70vh;
+        margin: 0 auto;
+    }
+}

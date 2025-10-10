@@ -1,0 +1,38 @@
+/**
+ * variables.css - CSS Variables and Constants
+ * Defines colors, sizes, and reusable values
+ */
+
+:root {
+    /* Colors - Neon Theme */
+    --color-primary: #00ffff;
+    --color-secondary: #ff00ff;
+    --color-tertiary: #ffbe0b;
+    --color-bg-dark: #0a0e27;
+    --color-bg-darker: #1a0b2e;
+    --color-bg-darkest: #16003b;
+    
+    /* Font */
+    --font-family: 'Orbitron', sans-serif;
+    
+    /* Spacing */
+    --gap-small: 10px;
+    --gap-medium: 15px;
+    --gap-large: 20px;
+    
+    /* Border Radius */
+    --radius-small: 5px;
+    --radius-medium: 8px;
+    --radius-large: 10px;
+    --radius-xlarge: 15px;
+    
+    /* Shadows */
+    --shadow-neon-cyan: 0 0 20px rgba(0, 255, 255, 0.5);
+    --shadow-neon-magenta: 0 0 20px rgba(255, 0, 255, 0.5);
+    --shadow-neon-yellow: 0 0 20px rgba(255, 190, 11, 0.5);
+    
+    /* Transitions */
+    --transition-fast: 0.2s ease;
+    --transition-normal: 0.3s ease;
+    --transition-slow: 0.5s ease;
+}

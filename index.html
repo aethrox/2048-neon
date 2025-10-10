@@ -10,96 +10,89 @@
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
     <link rel="apple-touch-icon" href="favicon.svg">
     
-    <!-- Modular CSS (additional styles) -->
+    <!-- Modular CSS -->
     <link rel="stylesheet" href="src/css/main.css">
-    <!-- Main CSS (all game styles) -->
+    <!-- Original CSS (temporary - for remaining styles) -->
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <button id="info-btn" class="info-btn-corner">💡</button>
-    <button id="language-btn" class="language-toggle-button">
-        <span class="language-icon">🌐</span>
-        <span class="language-text">EN</span>
-    </button>
-    <a href="https://buymeacoffee.com/aethrox" target="_blank" rel="noopener noreferrer" class="coffee-btn-corner" title="Support this project">
-        ☕
-    </a>
+    <!-- Hamburger Menu Button - Top Left -->
+    <button id="menu-btn" class="hamburger-btn" aria-label="Open Menu">☰</button>
     
+    <!-- Hamburger Menu Overlay -->
+    <div id="menu-overlay" class="menu-overlay">
+        <div class="menu-sidebar">
+            <div class="menu-header">
+                <h2 class="menu-title" data-translate="menuTitle">🎮 MENU</h2>
+                <button id="menu-close" class="menu-close" aria-label="Close Menu">✕</button>
+            </div>
+            <div class="menu-items">
+                <!-- Main Actions -->
+                <button id="new-game-menu" class="menu-item" data-translate="newGame">🆕 New Game</button>
+                <button id="ghost-toggle-menu" class="menu-item ghost-toggle"><span data-translate="ghostMode">👻 Ghost Mode</span></button>
+                
+                <!-- Utility Section -->
+                <div class="menu-section-title" data-translate="settings">⚙️ SETTINGS</div>
+                
+                <button id="info-btn-menu" class="menu-item">
+                    <span class="menu-item-icon">💡</span>
+                    <span class="menu-item-text" data-translate="howToPlay">How to Play</span>
+                </button>
+                
+                <button id="language-btn-menu" class="menu-item">
+                    <span class="menu-item-icon">🌐</span>
+                    <span class="menu-item-text"><span data-translate="language">Language</span>: <span id="language-text-menu">EN</span></span>
+                </button>
+                
+                <a href="https://buymeacoffee.com/aethrox" target="_blank" rel="noopener noreferrer" class="menu-item menu-link" title="Support this project">
+                    <span class="menu-item-icon">☕</span>
+                    <span class="menu-item-text" data-translate="buyMeCoffee">Buy Me a Coffee</span>
+                </a>
+                
+                <!-- Feedback Section -->
+                <div class="menu-section-title" data-translate="feedbackSection">💬 FEEDBACK</div>
+                
+                <button id="feedback-btn-menu" class="menu-item">
+                    <span class="menu-item-icon">💬</span>
+                    <span class="menu-item-text" data-translate="giveFeedback">Give Feedback</span>
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Main Content Container -->
     <div class="container">
+        <!-- Game Title -->
         <div class="header">
             <h1>2048</h1>
         </div>
+        
+        <!-- Streak Display (shows when active) -->
         <div id="streak-display" class="streak-display">
             <span class="streak-icon">🔥</span>
             <span class="streak-count">0</span>
         </div>
+        
+        <!-- Game Subtitle -->
         <div class="game-intro">
             <p class="game-subtitle" data-translate="title">Merge the <strong>neon blocks</strong> to reach <strong>2048!</strong></p>
-            <div class="game-controls">
-                <button id="new-game" data-translate="newGame">New Game</button>
-                <button id="ghost-toggle" class="ghost-toggle"><span data-translate="ghostMode">👻 Ghost Mode</span></button>
+        </div>
+        
+        <!-- Score Display - Centered Above Game -->
+        <div class="score-container">
+            <div class="score-box">
+                <span class="score-title" data-translate="score">SCORE</span>
+                <span id="score">0</span>
+            </div>
+            <div class="score-box">
+                <span class="score-title" data-translate="best">BEST</span>
+                <span id="best-score">0</span>
             </div>
         </div>
         
-        <!-- Info Modal -->
-        <div id="info-modal" class="info-modal">
-            <div class="info-modal-content">
-                <button class="info-close">&times;</button>
-                <h2 data-translate="infoTitle">🎮 2048 NEON GAME</h2>
-                
-                <div class="info-section">
-                    <h3 data-translate="howToPlayTitle">📖 How to Play</h3>
-                    <p data-translate="howToPlayText">Use your <strong>arrow keys</strong> (or swipe on mobile) to move tiles. When two tiles with the same number touch, they merge into one! Your goal is to create a tile with the number <strong>2048</strong>.</p>
-                </div>
-                
-                <div class="info-section">
-                    <h3 data-translate="featuresTitle">✨ Features</h3>
-                    <ul>
-                        <li data-translate="feature1"><strong>👻 Ghost Mode:</strong> See your best game overlay to compare and improve</li>
-                        <li data-translate="feature2"><strong>🔥 Streak System:</strong> Build consecutive merge streaks for bonus points and rewards</li>
-                        <li data-translate="feature3"><strong>⚡ Special Cards:</strong> Lightning (chain reaction), Star (2x multiplier), Diamond (5x points)</li>
-                        <li data-translate="feature4"><strong>🎯 Milestones:</strong> Earn bonus points for reaching 128, 256, 512, 1024, 2048+</li>
-                        <li data-translate="feature5"><strong>💪 Power-Ups:</strong> Undo moves, get hints, or remove tiles strategically</li>
-                    </ul>
-                </div>
-                
-                <div class="info-section">
-                    <h3 data-translate="rewardsTitle">🎁 Rewards</h3>
-                    <ul>
-                        <li data-translate="reward1"><strong>3 Streak:</strong> +50 points</li>
-                        <li data-translate="reward2"><strong>5 Streak:</strong> +150 points</li>
-                        <li data-translate="reward3"><strong>7 Streak:</strong> +300 points</li>
-                        <li data-translate="reward4"><strong>10 Streak:</strong> +500 points + Random Power-Up</li>
-                        <li data-translate="reward5"><strong>15+ Streak:</strong> +1000 points + Rainbow effects</li>
-                    </ul>
-                </div>
-                
-                <div class="info-section">
-                    <h3 data-translate="controlsTitle">🎮 Controls</h3>
-                    <ul>
-                        <li data-translate="control1"><strong>Arrow Keys:</strong> Move tiles</li>
-                        <li data-translate="control2"><strong>G Key:</strong> Toggle Ghost Mode</li>
-                        <li data-translate="control3"><strong>Swipe:</strong> Move tiles on mobile</li>
-                    </ul>
-                </div>
-                
-                <div class="info-section">
-                    <h3 data-translate="tipsTitle">💡 Tips</h3>
-                    <ul>
-                        <li data-translate="tip1">Keep your highest tile in a corner</li>
-                        <li data-translate="tip2">Build tiles in a specific direction</li>
-                        <li data-translate="tip3">Use power-ups strategically when stuck</li>
-                        <li data-translate="tip4">Maintain streaks for maximum points</li>
-                        <li data-translate="tip5">Special cards appear after move 5 when board is less than 75% full</li>
-                    </ul>
-                </div>
-                
-                <div class="info-footer">
-                    <p data-translate="infoFooter">Good luck and have fun! 🎉</p>
-                </div>
-            </div>
-        </div>
+        <!-- Game Area: Board + Power-ups Side by Side -->
         <div class="game-layout">
+            <!-- Game Board -->
             <div class="game-container">
                 <div class="grid"></div>
                 <div class="game-over">
@@ -112,42 +105,141 @@
                     <button id="new-game-2">Restart</button>
                 </div>
             </div>
-            <div class="sidebar">
-                <div class="score-container">
-                    <div class="score-box">
-                        <span class="score-title" data-translate="score">SCORE</span>
-                        <span id="score">0</span>
-                    </div>
-                    <div class="score-box">
-                        <span class="score-title" data-translate="best">BEST</span>
-                        <span id="best-score">0</span>
-                    </div>
-                </div>
-                <div class="powerup-bar">
-                    <button id="undo-btn" class="powerup-btn" title="Undo last move">
-                        <span class="powerup-icon">↶</span>
-                        <span class="powerup-name" data-translate="undo">UNDO</span>
-                        <span class="powerup-count" id="undo-count">3</span>
-                    </button>
-                    <button id="hint-btn" class="powerup-btn" title="Show best move">
-                        <span class="powerup-icon">💡</span>
-                        <span class="powerup-name" data-translate="hint">HINT</span>
-                        <span class="powerup-count" id="hint-count">5</span>
-                    </button>
-                    <button id="remove-btn" class="powerup-btn" title="Remove any tile">
-                        <span class="powerup-icon">✕</span>
-                        <span class="powerup-name" data-translate="remove">REMOVE</span>
-                        <span class="powerup-count" id="remove-count">2</span>
-                    </button>
-                </div>
+            
+            <!-- Power-Ups Sidebar -->
+            <div class="powerups-sidebar">
+                <div class="powerups-title" data-translate="enhancements">⚡ ENHANCEMENTS</div>
+                <button id="undo-btn" class="powerup-btn" title="Undo last move">
+                    <span class="powerup-icon">↶</span>
+                    <span class="powerup-name" data-translate="undo">UNDO</span>
+                    <span class="powerup-count" id="undo-count">3</span>
+                </button>
+                <button id="hint-btn" class="powerup-btn" title="Show best move">
+                    <span class="powerup-icon">💡</span>
+                    <span class="powerup-name" data-translate="hint">HINT</span>
+                    <span class="powerup-count" id="hint-count">5</span>
+                </button>
+                <button id="remove-btn" class="powerup-btn" title="Remove any tile">
+                    <span class="powerup-icon">✕</span>
+                    <span class="powerup-name" data-translate="remove">REMOVE</span>
+                    <span class="powerup-count" id="remove-count">2</span>
+                </button>
             </div>
         </div>
+        
+        <!-- Instructions -->
         <p class="game-explanation">
             <strong data-translate="howToPlayLabel">HOW TO PLAY:</strong> <span data-translate="howToPlayInstruction">Use your <strong>arrow keys</strong> to move the tiles. When two tiles with the same number touch, they <strong>merge into one!</strong></span>
         </p>
     </div>
     
-    <!-- Legacy JavaScript (Working without server) -->
-    <script src="game.js"></script>
+    <!-- Feedback Modal -->
+    <div id="feedback-modal" class="feedback-modal">
+        <div class="feedback-modal-content">
+            <button class="feedback-close">&times;</button>
+            <h2 data-translate="feedbackTitle">💬 We'd Love Your Feedback!</h2>
+            
+            <div class="feedback-section">
+                <p class="feedback-question" data-translate="feedbackQuestion">How would you rate your experience?</p>
+                <div class="star-rating">
+                    <span class="star" data-rating="1">☆</span>
+                    <span class="star" data-rating="2">☆</span>
+                    <span class="star" data-rating="3">☆</span>
+                    <span class="star" data-rating="4">☆</span>
+                    <span class="star" data-rating="5">☆</span>
+                </div>
+            </div>
+            
+            <div class="feedback-section">
+                <label for="feedback-comment" data-translate="feedbackCommentLabel">Tell us more (optional):</label>
+                <textarea 
+                    id="feedback-comment" 
+                    class="feedback-comment" 
+                    maxlength="500" 
+                    rows="4"
+                    placeholder=""></textarea>
+                <div class="character-count">
+                    <span id="char-count">0</span>/500
+                </div>
+            </div>
+            
+            <div class="feedback-actions">
+                <button id="submit-feedback-btn" class="feedback-btn primary" disabled data-translate="submitFeedback">Submit Feedback</button>
+                <button id="skip-feedback-btn" class="feedback-btn secondary" data-translate="skipFeedback">Maybe Later</button>
+            </div>
+            
+            <div class="feedback-footer">
+                <label class="feedback-checkbox">
+                    <input type="checkbox" id="dont-show-again">
+                    <span data-translate="dontShowAgain">Don't show this again</span>
+                </label>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Info Modal -->
+    <div id="info-modal" class="info-modal">
+        <div class="info-modal-content">
+            <button class="info-close">&times;</button>
+            <h2 data-translate="infoTitle">🎮 2048 NEON GAME</h2>
+            
+            <div class="info-section">
+                <h3 data-translate="howToPlayTitle">📖 How to Play</h3>
+                <p data-translate="howToPlayText">Use your <strong>arrow keys</strong> (or swipe on mobile) to move tiles. When two tiles with the same number touch, they merge into one! Your goal is to create a tile with the number <strong>2048</strong>.</p>
+            </div>
+            
+            <div class="info-section">
+                <h3 data-translate="featuresTitle">✨ Features</h3>
+                <ul>
+                    <li data-translate="feature1"><strong>👻 Ghost Mode:</strong> See your best game overlay to compare and improve</li>
+                    <li data-translate="feature2"><strong>🔥 Streak System:</strong> Build consecutive merge streaks for bonus points and rewards</li>
+                    <li data-translate="feature3"><strong>⚡ Special Cards:</strong> Lightning (chain reaction), Star (2x multiplier), Diamond (5x points)</li>
+                    <li data-translate="feature4"><strong>🎯 Milestones:</strong> Earn bonus points for reaching 128, 256, 512, 1024, 2048+</li>
+                    <li data-translate="feature5"><strong>💪 Power-Ups:</strong> Undo moves, get hints, or remove tiles strategically</li>
+                </ul>
+            </div>
+            
+            <div class="info-section">
+                <h3 data-translate="rewardsTitle">🎁 Rewards</h3>
+                <ul>
+                    <li data-translate="reward1"><strong>3 Streak:</strong> +50 points</li>
+                    <li data-translate="reward2"><strong>5 Streak:</strong> +150 points</li>
+                    <li data-translate="reward3"><strong>7 Streak:</strong> +300 points</li>
+                    <li data-translate="reward4"><strong>10 Streak:</strong> +500 points + Random Power-Up</li>
+                    <li data-translate="reward5"><strong>15+ Streak:</strong> +1000 points + Rainbow effects</li>
+                </ul>
+            </div>
+            
+            <div class="info-section">
+                <h3 data-translate="controlsTitle">🎮 Controls</h3>
+                <ul>
+                    <li data-translate="control1"><strong>Arrow Keys:</strong> Move tiles</li>
+                    <li data-translate="control2"><strong>G Key:</strong> Toggle Ghost Mode</li>
+                    <li data-translate="control3"><strong>Swipe:</strong> Move tiles on mobile</li>
+                </ul>
+            </div>
+            
+            <div class="info-section">
+                <h3 data-translate="tipsTitle">💡 Tips</h3>
+                <ul>
+                    <li data-translate="tip1">Keep your highest tile in a corner</li>
+                    <li data-translate="tip2">Build tiles in a specific direction</li>
+                    <li data-translate="tip3">Use power-ups strategically when stuck</li>
+                    <li data-translate="tip4">Maintain streaks for maximum points</li>
+                    <li data-translate="tip5">Special cards appear after move 5 when board is less than 75% full</li>
+                </ul>
+            </div>
+            
+            <div class="info-footer">
+                <p data-translate="infoFooter">Good luck and have fun! 🎉</p>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Modular JavaScript - REQUIRES HTTP SERVER -->
+    <script type="module" src="src/js/main.js"></script>
+    
+    <!-- Original monolithic version (backup) -->
+    <!-- <script src="game.js"></script> -->
 </body>
 </html>

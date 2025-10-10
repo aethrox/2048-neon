@@ -1,148 +1,293 @@
 // ============================================================================
 // GAME STATE MANAGEMENT
 // ============================================================================
+// Centralized state management for the game
+// Uses singleton pattern to ensure single source of truth
+// ============================================================================
 
-import { GRID_SIZE, POWER_UPS_INITIAL } from '../config/constants.js';
-import { StorageManager } from '../utils/storage.js';
+import { DEFAULT_POWER_UPS, STORAGE_KEYS } from '../config/constants.js';
 
-export class GameState {
+class GameState {
     constructor() {
+        // Core game state
         this.board = [];
-        this.specialTiles = {};
+        this.specialTiles = {}; // Track special card types by position "row-col"
         this.score = 0;
-        this.bestScore = StorageManager.get('bestScore', 0);
+        this.bestScore = parseInt(localStorage.getItem(STORAGE_KEYS.bestScore)) || 0;
         this.isMoving = false;
         this.hasWon = false;
-        this.mergedPositions = new Set();
+        this.mergedPositions = new Set(); // Track merged tile positions
+        
+        // Ghost system state
+        this.ghostModeEnabled = localStorage.getItem(STORAGE_KEYS.ghostModeEnabled) === 'true' || false;
+        this.ghostData = null;
         this.moveCount = 0;
+        
+        // Power-up system state
+        this.powerUps = { ...DEFAULT_POWER_UPS };
         this.moveHistory = [];
+        this.removeModeActive = false;
         this.lastScoreMilestone = 0;
         
-        // Ghost Mode
-        this.ghostModeEnabled = StorageManager.get('ghostModeEnabled', false);
-        this.ghostData = StorageManager.get('ghostData', null);
+        // Special cards system
+        this.specialCardsOnBoard = 0;
+        this.specialCardsCollected = {
+            lightning: 0,
+            star: 0,
+            diamond: 0
+        };
         
-        // Power-ups
-        this.powerUps = StorageManager.get('powerUps', POWER_UPS_INITIAL);
-        
-        // Streaks
-        this.streaks = StorageManager.get('streaks', {
+        // Streak & Milestone system
+        this.streaks = {
             currentMergeStreak: 0,
             bestMergeStreak: 0,
-            totalMerges: 0
-        });
-        
-        // Milestones
-        this.milestones = StorageManager.get('milestones', {
+            currentPerfectStreak: 0,
+            bestPerfectStreak: 0
+        };
+        this.milestones = {
             tilesReached: [],
-            highestTile: 0
-        });
+            scoreThresholds: []
+        };
+        this.mergeCountThisMove = 0;
+        
+        // Feedback system state
+        this.feedbackRating = 0;
+        this.gamesPlayed = parseInt(localStorage.getItem(STORAGE_KEYS.gamesPlayed)) || 0;
+        
+        // Load saved data
+        this.loadGhostData();
+        this.loadPowerUps();
+        this.loadStreaks();
+        this.loadMilestones();
     }
-
-    reset() {
-        this.board = Array(GRID_SIZE).fill().map(() => Array(GRID_SIZE).fill(0));
+    
+    // Load ghost data from localStorage
+    loadGhostData() {
+        try {
+            const savedGhostData = localStorage.getItem(STORAGE_KEYS.ghostData);
+            if (savedGhostData && savedGhostData !== 'null') {
+                this.ghostData = JSON.parse(savedGhostData);
+            }
+        } catch (e) {
+            console.error('Error loading ghost data:', e);
+            this.ghostData = null;
+        }
+    }
+    
+    // Load power-ups from localStorage
+    loadPowerUps() {
+        try {
+            const savedPowerUps = localStorage.getItem(STORAGE_KEYS.powerUps);
+            if (savedPowerUps) {
+                this.powerUps = JSON.parse(savedPowerUps);
+            }
+        } catch (e) {
+            console.error('Error loading power-ups:', e);
+            this.powerUps = { ...DEFAULT_POWER_UPS };
+        }
+    }
+    
+    // Load streaks from localStorage
+    loadStreaks() {
+        try {
+            const savedStreaks = localStorage.getItem(STORAGE_KEYS.streaks);
+            if (savedStreaks) {
+                this.streaks = JSON.parse(savedStreaks);
+            }
+        } catch (e) {
+            console.error('Error loading streaks:', e);
+        }
+    }
+    
+    // Load milestones from localStorage
+    loadMilestones() {
+        try {
+            const savedMilestones = localStorage.getItem(STORAGE_KEYS.milestones);
+            if (savedMilestones) {
+                this.milestones = JSON.parse(savedMilestones);
+            }
+        } catch (e) {
+            console.error('Error loading milestones:', e);
+        }
+    }
+    
+    // Save ghost data to localStorage
+    saveGhostData() {
+        const data = {
+            score: this.bestScore,
+            board: JSON.parse(JSON.stringify(this.board)),
+            moveCount: this.moveCount,
+            timestamp: new Date().toISOString()
+        };
+        
+        this.ghostData = data;
+        localStorage.setItem(STORAGE_KEYS.ghostData, JSON.stringify(data));
+    }
+    
+    // Save power-ups to localStorage
+    savePowerUps() {
+        localStorage.setItem(STORAGE_KEYS.powerUps, JSON.stringify(this.powerUps));
+    }
+    
+    // Save streaks to localStorage
+    saveStreaks() {
+        localStorage.setItem(STORAGE_KEYS.streaks, JSON.stringify(this.streaks));
+    }
+    
+    // Save milestones to localStorage
+    saveMilestones() {
+        localStorage.setItem(STORAGE_KEYS.milestones, JSON.stringify(this.milestones));
+    }
+    
+    // Reset game state for new game
+    resetGameState() {
+        this.board = Array(4).fill().map(() => Array(4).fill(0));
         this.specialTiles = {};
         this.score = 0;
         this.hasWon = false;
         this.moveCount = 0;
         this.moveHistory = [];
         this.lastScoreMilestone = 0;
+        this.specialCardsOnBoard = 0;
+        this.mergeCountThisMove = 0;
         this.mergedPositions.clear();
         
-        // Reset streak
+        // Reset streaks
         this.streaks.currentMergeStreak = 0;
-        StorageManager.set('streaks', this.streaks);
+        this.streaks.currentPerfectStreak = 0;
+        
+        // Reset power-ups to default
+        this.powerUps = { ...DEFAULT_POWER_UPS };
+        
+        // Increment games played
+        this.gamesPlayed++;
+        localStorage.setItem(STORAGE_KEYS.gamesPlayed, this.gamesPlayed);
     }
-
+    
+    // Update score
     updateScore(points) {
         this.score += points;
+        
+        // Update best score if needed
         if (this.score > this.bestScore) {
             this.bestScore = this.score;
-            StorageManager.set('bestScore', this.bestScore);
+            localStorage.setItem(STORAGE_KEYS.bestScore, this.bestScore);
+            
+            // Save ghost data when new best is achieved
+            this.saveGhostData();
         }
     }
-
-    saveMove() {
-        this.moveHistory.push({
-            board: JSON.parse(JSON.stringify(this.board)),
-            score: this.score
-        });
-        
-        // Keep only last 3 moves
-        if (this.moveHistory.length > 3) {
-            this.moveHistory.shift();
+    
+    // Toggle ghost mode
+    toggleGhostMode() {
+        this.ghostModeEnabled = !this.ghostModeEnabled;
+        localStorage.setItem(STORAGE_KEYS.ghostModeEnabled, this.ghostModeEnabled);
+        return this.ghostModeEnabled;
+    }
+    
+    // Check if board position has special tile
+    hasSpecialTile(row, col) {
+        return this.specialTiles[`${row}-${col}`] !== undefined;
+    }
+    
+    // Get special tile type at position
+    getSpecialTileType(row, col) {
+        return this.specialTiles[`${row}-${col}`] || null;
+    }
+    
+    // Set special tile at position
+    setSpecialTile(row, col, type) {
+        if (type) {
+            this.specialTiles[`${row}-${col}`] = type;
+        } else {
+            delete this.specialTiles[`${row}-${col}`];
         }
     }
-
-    restoreMove() {
-        if (this.moveHistory.length === 0) return null;
-        return this.moveHistory.pop();
+    
+    // Move special tile from one position to another
+    moveSpecialTile(fromRow, fromCol, toRow, toCol) {
+        const key = `${fromRow}-${fromCol}`;
+        if (this.specialTiles[key]) {
+            this.specialTiles[`${toRow}-${toCol}`] = this.specialTiles[key];
+            delete this.specialTiles[key];
+        }
     }
-
-    incrementMoveCount() {
-        this.moveCount++;
+    
+    // Get all special tiles on board
+    getSpecialTilesCount() {
+        return Object.keys(this.specialTiles).length;
     }
-
+    
+    // Update special cards count
+    updateSpecialCardsCount() {
+        this.specialCardsOnBoard = this.getSpecialTilesCount();
+    }
+    
+    // Check if position is merged
+    isMergedPosition(row, col) {
+        return this.mergedPositions.has(`${row}-${col}`);
+    }
+    
+    // Add merged position
+    addMergedPosition(row, col) {
+        this.mergedPositions.add(`${row}-${col}`);
+    }
+    
+    // Clear merged positions
+    clearMergedPositions() {
+        this.mergedPositions.clear();
+    }
+    
+    // Get board deep copy
+    getBoardCopy() {
+        return JSON.parse(JSON.stringify(this.board));
+    }
+    
+    // Get tile value at position
+    getTileValue(row, col) {
+        return this.board[row][col];
+    }
+    
+    // Set tile value at position
+    setTileValue(row, col, value) {
+        this.board[row][col] = value;
+    }
+    
+    // Check if cell is empty
+    isCellEmpty(row, col) {
+        return this.board[row][col] === 0;
+    }
+    
+    // Get all empty cells
     getEmptyCells() {
         const emptyCells = [];
-        for (let row = 0; row < GRID_SIZE; row++) {
-            for (let col = 0; col < GRID_SIZE; col++) {
-                if (this.board[row][col] === 0) {
-                    emptyCells.push({ row, col });
+        for (let i = 0; i < 4; i++) {
+            for (let j = 0; j < 4; j++) {
+                if (this.board[i][j] === 0) {
+                    emptyCells.push({ row: i, col: j });
                 }
             }
         }
         return emptyCells;
     }
-
-    getBoardFillPercentage() {
-        let filledCells = 0;
-        for (let row = 0; row < GRID_SIZE; row++) {
-            for (let col = 0; col < GRID_SIZE; col++) {
-                if (this.board[row][col] !== 0) {
-                    filledCells++;
-                }
-            }
-        }
-        return filledCells / (GRID_SIZE * GRID_SIZE);
+    
+    // Check if board is full
+    isBoardFull() {
+        return this.getEmptyCells().length === 0;
     }
-
-    countSpecialCards() {
-        return Object.keys(this.specialTiles).length;
-    }
-
-    isGameOver() {
-        // Check for empty cells
-        if (this.getEmptyCells().length > 0) return false;
-        
-        // Check for possible merges
-        for (let row = 0; row < GRID_SIZE; row++) {
-            for (let col = 0; col < GRID_SIZE; col++) {
-                const value = this.board[row][col];
-                
-                // Check right
-                if (col < GRID_SIZE - 1 && this.board[row][col + 1] === value) {
-                    return false;
-                }
-                
-                // Check down
-                if (row < GRID_SIZE - 1 && this.board[row + 1][col] === value) {
-                    return false;
-                }
-            }
-        }
-        
-        return true;
-    }
-
-    hasWon2048() {
-        for (let row = 0; row < GRID_SIZE; row++) {
-            for (let col = 0; col < GRID_SIZE; col++) {
-                if (this.board[row][col] === 2048) {
-                    return true;
-                }
-            }
-        }
-        return false;
+    
+    // Get board fullness percentage
+    getBoardFullness() {
+        const emptyCells = this.getEmptyCells().length;
+        return (16 - emptyCells) / 16;
     }
 }
+
+// Create singleton instance
+const gameState = new GameState();
+
+// Export singleton instance
+export default gameState;
+
+// Also export class for testing purposes
+export { GameState };

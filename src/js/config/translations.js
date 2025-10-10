@@ -1,5 +1,7 @@
 // ============================================================================
-// TRANSLATION SYSTEM
+// TRANSLATIONS SYSTEM
+// ============================================================================
+// Supports Turkish (tr) and English (en) languages
 // ============================================================================
 
 export const translations = {
@@ -14,6 +16,15 @@ export const translations = {
         remove: "SİL",
         gameOver: "SİSTEM HATASI",
         youWin: "ZAFER!",
+        tryAgain: "Yeniden Dene",
+        keepGoing: "Devam Et",
+        restart: "Yeniden Başlat",
+        enhancements: "GÜÇLENDİRMELER",
+        menuTitle: "MENÜ",
+        settings: "AYARLAR",
+        howToPlay: "Nasıl Oynanır",
+        language: "Dil",
+        buyMeCoffee: "Bana Kahve Al",
         goodStart: "İyi Başlangıç! 🎯",
         niceProgress: "Güzel İlerleme! ⭐",
         halfwayThere: "Yarı Yoldasın! 🚀",
@@ -54,7 +65,19 @@ export const translations = {
         tip5: "Özel kartlar 5. hamlede ve tahta %75'ten az doluyken görünür",
         infoFooter: "İyi şanslar ve iyi eğlenceler! 🎉",
         howToPlayLabel: "NASIL OYNANIR:",
-        howToPlayInstruction: "<strong>Ok tuşlarınızı</strong> kullanarak kartları hareket ettirin. Aynı sayıdaki iki kart birleştiğinde, <strong>tek kart olurlar!</strong>"
+        howToPlayInstruction: "<strong>Ok tuşlarınızı</strong> kullanarak kartları hareket ettirin. Aynı sayıdaki iki kart birleştiğinde, <strong>tek kart olurlar!</strong>",
+        // Feedback Modal
+        feedbackSection: "GERİ BİLDİRİM",
+        giveFeedback: "Geri Bildirim Ver",
+        feedbackTitle: "💬 Görüşlerinizi Bekliyoruz!",
+        feedbackQuestion: "Deneyiminizi nasıl değerlendirirsiniz?",
+        feedbackCommentLabel: "Daha fazlasını söyleyin (isteğe bağlı):",
+        feedbackPlaceholder: "Oyun hakkındaki düşüncelerinizi paylaşın...",
+        submitFeedback: "Geri Bildirim Gönder",
+        skipFeedback: "Belki Sonra",
+        dontShowAgain: "Bunu tekrar gösterme",
+        feedbackThankYou: "Teşekkürler! Geri bildiriminiz gönderildi. 🎉",
+        feedbackError: "Geri bildirim gönderilemedi. Lütfen tekrar deneyin."
     },
     en: {
         title: "Merge the <strong>neon blocks</strong> to reach <strong>2048!</strong>",
@@ -67,6 +90,15 @@ export const translations = {
         remove: "REMOVE",
         gameOver: "SYSTEM FAILURE",
         youWin: "VICTORY!",
+        tryAgain: "Reboot",
+        keepGoing: "Continue",
+        restart: "Restart",
+        enhancements: "ENHANCEMENTS",
+        menuTitle: "MENU",
+        settings: "SETTINGS",
+        howToPlay: "How to Play",
+        language: "Language",
+        buyMeCoffee: "Buy Me a Coffee",
         goodStart: "Good Start! 🎯",
         niceProgress: "Nice Progress! ⭐",
         halfwayThere: "Halfway There! 🚀",
@@ -107,32 +139,79 @@ export const translations = {
         tip5: "Special cards appear after move 5 when board is less than 75% full",
         infoFooter: "Good luck and have fun! 🎉",
         howToPlayLabel: "HOW TO PLAY:",
-        howToPlayInstruction: "Use your <strong>arrow keys</strong> to move the tiles. When two tiles with the same number touch, they <strong>merge into one!</strong>"
+        howToPlayInstruction: "Use your <strong>arrow keys</strong> to move the tiles. When two tiles with the same number touch, they <strong>merge into one!</strong>",
+        // Feedback Modal
+        feedbackSection: "FEEDBACK",
+        giveFeedback: "Give Feedback",
+        feedbackTitle: "💬 We'd Love Your Feedback!",
+        feedbackQuestion: "How would you rate your experience?",
+        feedbackCommentLabel: "Tell us more (optional):",
+        feedbackPlaceholder: "Share your thoughts about the game...",
+        submitFeedback: "Submit Feedback",
+        skipFeedback: "Maybe Later",
+        dontShowAgain: "Don't show this again",
+        feedbackThankYou: "Thank you! Your feedback has been sent. 🎉",
+        feedbackError: "Failed to send feedback. Please try again."
     }
 };
 
-export class TranslationManager {
-    constructor() {
-        this.currentLanguage = localStorage.getItem('game-language') || 'en';
-    }
+// Current language state
+let currentLanguage = localStorage.getItem('game-language') || 'en';
 
-    t(key) {
-        return translations[this.currentLanguage][key] || key;
-    }
+// Get translation by key
+export function t(key) {
+    return translations[currentLanguage][key] || key;
+}
 
-    setLanguage(lang) {
-        this.currentLanguage = lang;
+// Get current language
+export function getCurrentLanguage() {
+    return currentLanguage;
+}
+
+// Set current language
+export function setCurrentLanguage(lang) {
+    if (translations[lang]) {
+        currentLanguage = lang;
         localStorage.setItem('game-language', lang);
+        return true;
     }
+    return false;
+}
 
-    getCurrentLanguage() {
-        return this.currentLanguage;
-    }
+// Update all UI texts with current language
+export function updateAllTexts() {
+    // Update all elements with data-translate attribute
+    document.querySelectorAll('[data-translate]').forEach(element => {
+        const key = element.getAttribute('data-translate');
+        element.innerHTML = t(key);
+    });
+    
+    // Update game over/win screens
+    const gameOverScreen = document.querySelector('.game-over');
+    const gameOverText = gameOverScreen?.querySelector('p');
+    if (gameOverText) gameOverText.textContent = t('gameOver');
+    
+    const winScreen = document.querySelector('.win');
+    const winText = winScreen?.querySelector('p');
+    if (winText) winText.textContent = t('youWin');
+    
+    // Update button texts
+    const tryAgainBtn = document.getElementById('try-again');
+    const keepGoingBtn = document.getElementById('keep-going');
+    const newGameBtn2 = document.getElementById('new-game-2');
+    
+    if (tryAgainBtn) tryAgainBtn.textContent = t('tryAgain');
+    if (keepGoingBtn) keepGoingBtn.textContent = t('keepGoing');
+    if (newGameBtn2) newGameBtn2.textContent = t('restart');
+    
+    // Update feedback textarea placeholder
+    const feedbackComment = document.getElementById('feedback-comment');
+    if (feedbackComment) feedbackComment.placeholder = t('feedbackPlaceholder');
+}
 
-    updateAllTexts() {
-        document.querySelectorAll('[data-translate]').forEach(element => {
-            const key = element.getAttribute('data-translate');
-            element.innerHTML = this.t(key);
-        });
-    }
+// Toggle between Turkish and English
+export function toggleLanguage() {
+    currentLanguage = currentLanguage === 'tr' ? 'en' : 'tr';
+    localStorage.setItem('game-language', currentLanguage);
+    return currentLanguage;
 }

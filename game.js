@@ -25,7 +25,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const bestScoreDisplay = document.getElementById('best-score');
     
     // Button Elements
-    const newGameBtn = document.getElementById('new-game');
     const tryAgainBtn = document.getElementById('try-again');
     const keepGoingBtn = document.getElementById('keep-going');
     const newGameBtn2 = document.getElementById('new-game-2');
@@ -37,12 +36,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const streakCount = document.querySelector('.streak-count');
     
     // Feature Buttons
-    const ghostToggleBtn = document.getElementById('ghost-toggle');
-    const infoBtn = document.getElementById('info-btn');
     const infoModal = document.getElementById('info-modal');
     const infoClose = document.querySelector('.info-close');
-    const languageBtn = document.getElementById('language-btn');
-    const languageText = document.querySelector('.language-text');
     
     // Power-up Elements
     const undoBtn = document.getElementById('undo-btn');
@@ -51,6 +46,17 @@ document.addEventListener('DOMContentLoaded', () => {
     const undoCountDisplay = document.getElementById('undo-count');
     const hintCountDisplay = document.getElementById('hint-count');
     const removeCountDisplay = document.getElementById('remove-count');
+    
+    // Feedback Modal Elements
+    const feedbackModal = document.getElementById('feedback-modal');
+    const feedbackClose = document.querySelector('.feedback-close');
+    const stars = document.querySelectorAll('.star');
+    const feedbackComment = document.getElementById('feedback-comment');
+    const charCount = document.getElementById('char-count');
+    const submitFeedbackBtn = document.getElementById('submit-feedback-btn');
+    const skipFeedbackBtn = document.getElementById('skip-feedback-btn');
+    const dontShowCheckbox = document.getElementById('dont-show-again');
+    const feedbackBtnMenu = document.getElementById('feedback-btn-menu');
     
     // ========================================================================
     // SECTION 2: TRANSLATION SYSTEM
@@ -67,6 +73,15 @@ document.addEventListener('DOMContentLoaded', () => {
             remove: "SİL",
             gameOver: "SİSTEM HATASI",
             youWin: "ZAFER!",
+            tryAgain: "Yeniden Dene",
+            keepGoing: "Devam Et",
+            restart: "Yeniden Başlat",
+            enhancements: "GÜÇLENDİRMELER",
+            menuTitle: "MENÜ",
+            settings: "AYARLAR",
+            howToPlay: "Nasıl Oynanır",
+            language: "Dil",
+            buyMeCoffee: "Bana Kahve Al",
             goodStart: "İyi Başlangıç! 🎯",
             niceProgress: "Güzel İlerleme! ⭐",
             halfwayThere: "Yarı Yoldasın! 🚀",
@@ -107,7 +122,19 @@ document.addEventListener('DOMContentLoaded', () => {
             tip5: "Özel kartlar 5. hamlede ve tahta %75'ten az doluyken görünür",
             infoFooter: "İyi şanslar ve iyi eğlenceler! 🎉",
             howToPlayLabel: "NASIL OYNANIR:",
-            howToPlayInstruction: "<strong>Ok tuşlarınızı</strong> kullanarak kartları hareket ettirin. Aynı sayıdaki iki kart birleştiğinde, <strong>tek kart olurlar!</strong>"
+            howToPlayInstruction: "<strong>Ok tuşlarınızı</strong> kullanarak kartları hareket ettirin. Aynı sayıdaki iki kart birleştiğinde, <strong>tek kart olurlar!</strong>",
+            // Feedback Modal
+            feedbackSection: "GERİ BİLDİRİM",
+            giveFeedback: "Geri Bildirim Ver",
+            feedbackTitle: "💬 Görüşlerinizi Bekliyoruz!",
+            feedbackQuestion: "Deneyiminizi nasıl değerlendirirsiniz?",
+            feedbackCommentLabel: "Daha fazlasını söyleyin (isteğe bağlı):",
+            feedbackPlaceholder: "Oyun hakkındaki düşüncelerinizi paylaşın...",
+            submitFeedback: "Geri Bildirim Gönder",
+            skipFeedback: "Belki Sonra",
+            dontShowAgain: "Bunu tekrar gösterme",
+            feedbackThankYou: "Teşekkürler! Geri bildiriminiz gönderildi. 🎉",
+            feedbackError: "Geri bildirim gönderilemedi. Lütfen tekrar deneyin."
         },
         en: {
             title: "Merge the <strong>neon blocks</strong> to reach <strong>2048!</strong>",
@@ -120,6 +147,15 @@ document.addEventListener('DOMContentLoaded', () => {
             remove: "REMOVE",
             gameOver: "SYSTEM FAILURE",
             youWin: "VICTORY!",
+            tryAgain: "Reboot",
+            keepGoing: "Continue",
+            restart: "Restart",
+            enhancements: "ENHANCEMENTS",
+            menuTitle: "MENU",
+            settings: "SETTINGS",
+            howToPlay: "How to Play",
+            language: "Language",
+            buyMeCoffee: "Buy Me a Coffee",
             goodStart: "Good Start! 🎯",
             niceProgress: "Nice Progress! ⭐",
             halfwayThere: "Halfway There! 🚀",
@@ -160,7 +196,19 @@ document.addEventListener('DOMContentLoaded', () => {
             tip5: "Special cards appear after move 5 when board is less than 75% full",
             infoFooter: "Good luck and have fun! 🎉",
             howToPlayLabel: "HOW TO PLAY:",
-            howToPlayInstruction: "Use your <strong>arrow keys</strong> to move the tiles. When two tiles with the same number touch, they <strong>merge into one!</strong>"
+            howToPlayInstruction: "Use your <strong>arrow keys</strong> to move the tiles. When two tiles with the same number touch, they <strong>merge into one!</strong>",
+            // Feedback Modal
+            feedbackSection: "FEEDBACK",
+            giveFeedback: "Give Feedback",
+            feedbackTitle: "💬 We'd Love Your Feedback!",
+            feedbackQuestion: "How would you rate your experience?",
+            feedbackCommentLabel: "Tell us more (optional):",
+            feedbackPlaceholder: "Share your thoughts about the game...",
+            submitFeedback: "Submit Feedback",
+            skipFeedback: "Maybe Later",
+            dontShowAgain: "Don't show this again",
+            feedbackThankYou: "Thank you! Your feedback has been sent. 🎉",
+            feedbackError: "Failed to send feedback. Please try again."
         }
     };
     
@@ -186,15 +234,20 @@ document.addEventListener('DOMContentLoaded', () => {
         
         const winText = winScreen.querySelector('p');
         if (winText) winText.textContent = t('youWin');
+        
+        // Update button texts
+        if (tryAgainBtn) tryAgainBtn.textContent = t('tryAgain');
+        if (keepGoingBtn) keepGoingBtn.textContent = t('keepGoing');
+        if (newGameBtn2) newGameBtn2.textContent = t('restart');
+        
+        // Update feedback textarea placeholder
+        if (feedbackComment) feedbackComment.placeholder = t('feedbackPlaceholder');
     }
     
     // Toggle language
     function toggleLanguage() {
         currentLanguage = currentLanguage === 'tr' ? 'en' : 'tr';
         localStorage.setItem('game-language', currentLanguage);
-        
-        // Update button text
-        languageText.textContent = currentLanguage.toUpperCase();
         
         // Update all UI texts
         updateAllTexts();
@@ -204,7 +257,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     
     // Initialize language on load
-    languageText.textContent = currentLanguage.toUpperCase();
     updateAllTexts();
 
     // ========================================================================
@@ -256,6 +308,10 @@ document.addEventListener('DOMContentLoaded', () => {
     };
     let mergeCountThisMove = 0;
     
+    // Feedback system state
+    let feedbackRating = 0;
+    let gamesPlayed = parseInt(localStorage.getItem('games-played')) || 0;
+    
     // Load ghost data with error handling
     try {
         const savedGhostData = localStorage.getItem('ghostData');
@@ -283,6 +339,10 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Initialize the game
     function initGame() {
+        // Track games played
+        gamesPlayed++;
+        localStorage.setItem('games-played', gamesPlayed);
+        
         // Clear the board
         board = Array(4).fill().map(() => Array(4).fill(0));
         specialTiles = {};
@@ -307,6 +367,11 @@ document.addEventListener('DOMContentLoaded', () => {
             remove: { count: 2, max: 5 }
         };
         updatePowerUpDisplay();
+        
+        // Re-enable power-up buttons when starting new game
+        undoBtn.disabled = false;
+        hintBtn.disabled = false;
+        removeBtn.disabled = false;
         
         // Clear the grid
         grid.innerHTML = '';
@@ -520,21 +585,17 @@ document.addEventListener('DOMContentLoaded', () => {
         localStorage.setItem('ghostModeEnabled', ghostModeEnabled);
         
         if (ghostModeEnabled) {
-            ghostToggleBtn.classList.add('active');
-            
             // Check if ghost data exists
             if (!ghostData || !ghostData.board) {
                 console.warn('No ghost data available. Play a game to record your best score!');
                 alert('👻 No ghost data yet!\n\nPlay a game and achieve a score to record your ghost board.');
                 ghostModeEnabled = false;
-                ghostToggleBtn.classList.remove('active');
                 localStorage.setItem('ghostModeEnabled', false);
                 return;
             }
             
             displayGhostTiles();
         } else {
-            ghostToggleBtn.classList.remove('active');
             document.querySelectorAll('.ghost-tile').forEach(tile => tile.remove());
         }
     }
@@ -1079,6 +1140,112 @@ document.addEventListener('DOMContentLoaded', () => {
         document.body.appendChild(confettiContainer);
         setTimeout(() => confettiContainer.remove(), 4000);
     }
+    
+    // ========================================================================
+    // FEEDBACK SYSTEM
+    // ========================================================================
+    
+    // Star rating functions
+    function highlightStars(rating) {
+        stars.forEach(star => {
+            const starRating = parseInt(star.dataset.rating);
+            if (starRating <= rating) {
+                star.classList.add('hover');
+                star.textContent = '★';
+            } else {
+                star.classList.remove('hover');
+                star.textContent = '☆';
+            }
+        });
+    }
+    
+    function updateStars() {
+        stars.forEach(star => {
+            const starRating = parseInt(star.dataset.rating);
+            star.classList.remove('hover');
+            if (starRating <= feedbackRating) {
+                star.classList.add('selected');
+                star.textContent = '★';
+            } else {
+                star.classList.remove('selected');
+                star.textContent = '☆';
+            }
+        });
+    }
+    
+    // Show feedback modal
+    function showFeedbackModal(isManualTrigger = false) {
+        // Only check localStorage preferences for automatic triggers
+        if (!isManualTrigger) {
+            const dismissed = localStorage.getItem('feedback-dismissed') === 'true';
+            const submitted = localStorage.getItem('feedback-submitted') === 'true';
+            
+            if (dismissed || submitted) return;
+        }
+        
+        feedbackModal.classList.add('show');
+    }
+    
+    // Check if feedback should be triggered
+    function checkFeedbackTrigger() {
+        const dismissed = localStorage.getItem('feedback-dismissed') === 'true';
+        const submitted = localStorage.getItem('feedback-submitted') === 'true';
+        
+        if (dismissed || submitted) return;
+        
+        // Show after game over/win with delay
+        setTimeout(() => {
+            showFeedbackModal();
+        }, 1000);
+    }
+    
+    // Submit feedback via webhook
+    async function submitFeedback() {
+        const comment = feedbackComment.value.trim();
+        
+        const feedbackData = {
+            rating: feedbackRating,
+            comment: comment || null,
+            score: score,
+            bestScore: bestScore,
+            timestamp: new Date().toISOString(),
+            language: currentLanguage,
+            gamesPlayed: gamesPlayed
+        };
+        
+        try {
+            const response = await fetch('https://sldzx1zf.rcld.app/webhook/feedback', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(feedbackData)
+            });
+            
+            if (response.ok) {
+                localStorage.setItem('feedback-submitted', 'true');
+                showNotification(t('feedbackThankYou'));
+                closeFeedbackModal();
+            } else {
+                throw new Error('Failed to submit');
+            }
+        } catch (error) {
+            console.error('Feedback submission error:', error);
+            showNotification(t('feedbackError'));
+        }
+    }
+    
+    // Close feedback modal
+    function closeFeedbackModal() {
+        feedbackModal.classList.remove('show');
+        // Reset form
+        feedbackRating = 0;
+        feedbackComment.value = '';
+        charCount.textContent = '0';
+        submitFeedbackBtn.disabled = true;
+        dontShowCheckbox.checked = false;
+        updateStars();
+    }
 
     // ========================================================================
     // SECTION 5: MOVEMENT & MERGE LOGIC
@@ -1437,16 +1604,32 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Game over screen
     function gameOver() {
+        // Disable power-up buttons
+        undoBtn.disabled = true;
+        hintBtn.disabled = true;
+        removeBtn.disabled = true;
+        
         setTimeout(() => {
             gameOverScreen.classList.add('show');
         }, 300);
+        
+        // Trigger feedback modal
+        checkFeedbackTrigger();
     }
 
     // Win screen
     function winGame() {
+        // Disable power-up buttons
+        undoBtn.disabled = true;
+        hintBtn.disabled = true;
+        removeBtn.disabled = true;
+        
         setTimeout(() => {
             winScreen.classList.add('show');
         }, 300);
+        
+        // Trigger feedback modal
+        checkFeedbackTrigger();
     }
 
     // ========================================================================
@@ -1539,32 +1722,27 @@ document.addEventListener('DOMContentLoaded', () => {
     // 9.2 Button Event Listeners
     // ------------------------------------------------------------------------
     
-    newGameBtn.addEventListener('click', initGame);
     tryAgainBtn.addEventListener('click', initGame);
     keepGoingBtn.addEventListener('click', () => {
         winScreen.classList.remove('show');
     });
     newGameBtn2.addEventListener('click', initGame);
-    ghostToggleBtn.addEventListener('click', toggleGhostMode);
     
     // Info modal listeners
-    infoBtn.addEventListener('click', () => {
-        infoModal.classList.add('show');
-    });
-    
-    infoClose.addEventListener('click', () => {
-        infoModal.classList.remove('show');
-    });
+    if (infoClose) {
+        infoClose.addEventListener('click', () => {
+            infoModal.classList.remove('show');
+        });
+    }
     
     // Close modal when clicking outside
-    infoModal.addEventListener('click', (e) => {
-        if (e.target === infoModal) {
-            infoModal.classList.remove('show');
-        }
-    });
-    
-    // Language toggle listener
-    languageBtn.addEventListener('click', toggleLanguage);
+    if (infoModal) {
+        infoModal.addEventListener('click', (e) => {
+            if (e.target === infoModal) {
+                infoModal.classList.remove('show');
+            }
+        });
+    }
     
     // Power-up button listeners
     undoBtn.addEventListener('click', usePowerUpUndo);
@@ -1579,13 +1757,157 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
     });
+    
+    // 9.3 Hamburger Menu Event Listeners
+    // ------------------------------------------------------------------------
+    
+    const menuBtn = document.getElementById('menu-btn');
+    const menuOverlay = document.getElementById('menu-overlay');
+    const menuClose = document.getElementById('menu-close');
+    const newGameMenuBtn = document.getElementById('new-game-menu');
+    const ghostToggleMenuBtn = document.getElementById('ghost-toggle-menu');
+    const infoBtnMenu = document.getElementById('info-btn-menu');
+    const languageBtnMenu = document.getElementById('language-btn-menu');
+    const languageTextMenu = document.getElementById('language-text-menu');
+    
+    // Open menu
+    if (menuBtn) {
+        menuBtn.addEventListener('click', () => {
+            menuOverlay.classList.add('show');
+        });
+    }
+    
+    // Close menu
+    if (menuClose) {
+        menuClose.addEventListener('click', () => {
+            menuOverlay.classList.remove('show');
+        });
+    }
+    
+    // Close menu when clicking backdrop
+    if (menuOverlay) {
+        menuOverlay.addEventListener('click', (e) => {
+            if (e.target === menuOverlay) {
+                menuOverlay.classList.remove('show');
+            }
+        });
+    }
+    
+    // Menu item actions
+    if (newGameMenuBtn) {
+        newGameMenuBtn.addEventListener('click', () => {
+            menuOverlay.classList.remove('show');
+            initGame();
+        });
+    }
+    
+    if (ghostToggleMenuBtn) {
+        ghostToggleMenuBtn.addEventListener('click', () => {
+            toggleGhostMode();
+            // Update both ghost toggle buttons
+            if (ghostModeEnabled) {
+                ghostToggleMenuBtn.classList.add('active');
+            } else {
+                ghostToggleMenuBtn.classList.remove('active');
+            }
+        });
+    }
+    
+    // Info button in menu
+    if (infoBtnMenu) {
+        infoBtnMenu.addEventListener('click', () => {
+            menuOverlay.classList.remove('show');
+            infoModal.classList.add('show');
+        });
+    }
+    
+    // Language button in menu
+    if (languageBtnMenu) {
+        languageBtnMenu.addEventListener('click', () => {
+            toggleLanguage();
+            // Update menu language text
+            if (languageTextMenu) {
+                languageTextMenu.textContent = currentLanguage.toUpperCase();
+            }
+        });
+    }
+    
+    // Initialize menu language text
+    if (languageTextMenu) {
+        languageTextMenu.textContent = currentLanguage.toUpperCase();
+    }
+    
+    // 9.4 Feedback Event Listeners
+    // ------------------------------------------------------------------------
+    
+    // Star rating listeners
+    stars.forEach(star => {
+        star.addEventListener('click', () => {
+            feedbackRating = parseInt(star.dataset.rating);
+            updateStars();
+            submitFeedbackBtn.disabled = false;
+        });
+        
+        star.addEventListener('mouseenter', () => {
+            const rating = parseInt(star.dataset.rating);
+            highlightStars(rating);
+        });
+    });
+    
+    document.querySelector('.star-rating').addEventListener('mouseleave', () => {
+        updateStars();
+    });
+    
+    // Character counter
+    if (feedbackComment) {
+        feedbackComment.addEventListener('input', () => {
+            charCount.textContent = feedbackComment.value.length;
+        });
+    }
+    
+    // Submit button
+    if (submitFeedbackBtn) {
+        submitFeedbackBtn.addEventListener('click', submitFeedback);
+    }
+    
+    // Skip button
+    if (skipFeedbackBtn) {
+        skipFeedbackBtn.addEventListener('click', () => {
+            if (dontShowCheckbox.checked) {
+                localStorage.setItem('feedback-dismissed', 'true');
+            }
+            closeFeedbackModal();
+        });
+    }
+    
+    // Close button
+    if (feedbackClose) {
+        feedbackClose.addEventListener('click', closeFeedbackModal);
+    }
+    
+    // Close on backdrop click
+    if (feedbackModal) {
+        feedbackModal.addEventListener('click', (e) => {
+            if (e.target === feedbackModal) {
+                closeFeedbackModal();
+            }
+        });
+    }
+    
+    // Feedback menu button
+    if (feedbackBtnMenu) {
+        feedbackBtnMenu.addEventListener('click', () => {
+            menuOverlay.classList.remove('show');
+            showFeedbackModal(true); // Pass true for manual trigger
+        });
+    }
 
     // Initialize the game
     bestScoreDisplay.textContent = bestScore;
     
-    // Set initial ghost button state
-    if (ghostModeEnabled) {
-        ghostToggleBtn.classList.add('active');
+    // Set initial ghost button state (menu button only)
+    if (ghostModeEnabled && ghostToggleMenuBtn) {
+        ghostToggleMenuBtn.classList.add('active');
     }
     
     // Update power-up display

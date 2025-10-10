@@ -1,31 +1,225 @@
-/* ============================================================================
-   2048 NEON GAME - MAIN CSS (MODULAR)
-   ============================================================================
-   This file imports all modular CSS components
-   ============================================================================ */
+/**
+ * main.css - Main CSS Entry Point
+ * Imports all modular CSS files
+ */
 
 /* Base Styles */
-@import './base/reset.css';
+@import url('./base/reset.css');
+@import url('./base/variables.css');
 
 /* Layout */
-@import './layout/container.css';
+@import url('./layout/container.css');
+@import url('./layout/grid.css');
 
 /* Components */
-@import './components/typography.css';
+@import url('./components/tiles.css');
 
-/* Note: Due to file size, remaining styles are kept in legacy style.css
-   Future refactoring will split these into:
-   - components/buttons.css
-   - components/grid.css
-   - components/tiles.css
-   - components/score.css
-   - features/language.css
-   - features/info-modal.css
-   - features/ghost-mode.css
-   - features/powerups.css
-   - features/special-cards.css
-   - features/streaks.css
-   - animations/tiles.css
-   - animations/effects.css
-   - responsive/mobile.css
-*/
+/* Animations */
+@import url('./animations/merge-animations.css');
+
+/* Temporary: Import remaining styles from original style.css */
+/* TODO: Break these into proper modules */
+
+/* Import Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap');
+
+/* Buttons */
+button {
+    background: linear-gradient(135deg, #ff00ff, #00ffff);
+    color: #0a0e27;
+    border: 2px solid #00ffff;
+    border-radius: 5px;
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s;
+    box-shadow: 
+        0 0 20px rgba(0, 255, 255, 0.5),
+        inset 0 0 10px rgba(255, 255, 255, 0.3);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+button:hover {
+    transform: translateY(-2px);
+    box-shadow: 
+        0 0 30px rgba(0, 255, 255, 0.8),
+        0 5px 20px rgba(255, 0, 255, 0.4),
+        inset 0 0 15px rgba(255, 255, 255, 0.5);
+}
+
+.game-controls {
+    flex-direction: column;
+    gap: 8px;
+}
+
+/* Power-ups Sidebar */
+.powerups-sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    min-width: 160px;
+    max-width: 180px;
+}
+
+.powerups-title {
+    font-size: 14px;
+    font-weight: bold;
+    color: #ff00ff;
+    text-shadow: 0 0 10px #ff00ff;
+    letter-spacing: 2px;
+    text-align: center;
+    margin-bottom: 5px;
+    text-transform: uppercase;
+}
+
+.powerup-bar {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.powerup-btn {
+    position: relative;
+    background: linear-gradient(135deg, rgba(0, 255, 255, 0.1), rgba(255, 0, 255, 0.1));
+    border: 2px solid #00ffff;
+    border-radius: 8px;
+    padding: 15px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+    transition: all 0.3s;
+    width: 100%;
+    box-shadow: 
+        0 0 15px rgba(0, 255, 255, 0.3),
+        inset 0 0 10px rgba(0, 255, 255, 0.1);
+}
+
+.powerup-btn:hover:not(:disabled) {
+    transform: translateY(-3px);
+    box-shadow: 
+        0 0 25px rgba(0, 255, 255, 0.6),
+        0 5px 15px rgba(255, 0, 255, 0.4),
+        inset 0 0 15px rgba(0, 255, 255, 0.2);
+    border-color: #ff00ff;
+}
+
+.powerup-btn:active:not(:disabled) {
+    transform: translateY(-1px);
+}
+
+.powerup-btn:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+    border-color: rgba(255, 255, 255, 0.2);
+}
+
+.powerup-icon {
+    font-size: 32px;
+    line-height: 1;
+}
+
+.powerup-name {
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    color: #00ffff;
+    text-shadow: 0 0 5px #00ffff;
+}
+
+.powerup-count {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    background: linear-gradient(135deg, #ff00ff, #00ffff);
+    color: #0a0e27;
+    border-radius: 50%;
+    width: 26px;
+    height: 26px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    font-weight: bold;
+    box-shadow: 0 0 10px rgba(255, 0, 255, 0.8);
+}
+
+.powerup-btn.in-use {
+    animation: powerup-pulse 0.6s ease-in-out;
+}
+
+@keyframes powerup-pulse {
+    0%, 100% { 
+        transform: scale(1);
+        box-shadow: 0 0 15px rgba(0, 255, 255, 0.3);
+    }
+    50% { 
+        transform: scale(1.1);
+        box-shadow: 0 0 35px rgba(255, 0, 255, 1);
+    }
+}
+
+/* Ghost Mode */
+.ghost-toggle {
+    background: rgba(255, 255, 255, 0.1);
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    color: rgba(255, 255, 255, 0.7);
+    transition: all 0.3s;
+}
+
+.ghost-toggle:hover {
+    background: rgba(255, 255, 255, 0.2);
+    border-color: rgba(255, 255, 255, 0.5);
+    color: #ffffff;
+}
+
+.ghost-toggle.active {
+    background: linear-gradient(135deg, rgba(0, 255, 255, 0.3), rgba(255, 0, 255, 0.3));
+    border: 2px solid #00ffff;
+    color: #00ffff;
+    box-shadow: 
+        0 0 20px rgba(0, 255, 255, 0.5),
+        inset 0 0 10px rgba(0, 255, 255, 0.2);
+}
+
+.tile.ghost-tile {
+    opacity: 0.35 !important;
+    z-index: 0 !important;
+    pointer-events: none !important;
+    border: 2px dashed rgba(255, 255, 255, 0.8) !important;
+    background: rgba(255, 255, 255, 0.2) !important;
+    color: rgba(255, 255, 255, 0.9) !important;
+    filter: blur(0.5px) !important;
+    box-shadow: 
+        0 0 20px rgba(255, 255, 255, 0.5),
+        inset 0 0 20px rgba(255, 255, 255, 0.3) !important;
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.8) !important;
+    transition: opacity 0.5s ease-out !important;
+    display: flex !important;
+}
+
+.ghost-tile[data-value="2"],
+.ghost-tile[data-value="4"],
+.ghost-tile[data-value="8"],
+.ghost-tile[data-value="16"],
+.ghost-tile[data-value="32"],
+.ghost-tile[data-value="64"],
+.ghost-tile[data-value="128"],
+.ghost-tile[data-value="256"],
+.ghost-tile[data-value="512"],
+.ghost-tile[data-value="1024"],
+.ghost-tile[data-value="2048"] {
+    background: rgba(255, 255, 255, 0.1) !important;
+    color: rgba(255, 255, 255, 0.6) !important;
+    border-color: rgba(255, 255, 255, 0.3) !important;
+}
+
+.ghost-mode-hidden .ghost-tile {
+    opacity: 0;
+}
+
+/* Continue using original style.css for remaining components temporarily */
+/* Import order matters for specificity */

@@ -1,0 +1,62 @@
+/**
+ * buttons.css - Button Styles
+ * All button styles including hover states
+ */
+
+button {
+    background: linear-gradient(135deg, #ff00ff, #00ffff);
+    color: #0a0e27;
+    border: 2px solid #00ffff;
+    border-radius: 5px;
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s;
+    box-shadow: 
+        0 0 20px rgba(0, 255, 255, 0.5),
+        inset 0 0 10px rgba(255, 255, 255, 0.3);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+button:hover {
+    transform: translateY(-2px);
+    box-shadow: 
+        0 0 30px rgba(0, 255, 255, 0.8),
+        0 5px 20px rgba(255, 0, 255, 0.4),
+        inset 0 0 15px rgba(255, 255, 255, 0.5);
+}
+
+.game-controls {
+    flex-direction: column;
+    gap: 8px;
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+    button {
+        padding: 8px 15px;
+        font-size: 13px;
+        letter-spacing: 1px;
+        width: 100%;
+        max-width: 200px;
+    }
+    
+    .game-controls {
+        flex-direction: column;
+        gap: 8px;
+    }
+    
+    .game-over button, .win button {
+        font-size: 14px;
+        padding: 10px 18px;
+    }
+}
+
+@media (max-width: 480px) {
+    button {
+        padding: 7px 12px;
+        font-size: 12px;
+    }
+}
