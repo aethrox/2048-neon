@@ -1,0 +1,73 @@
+/* ============================================================================
+   LAYOUT & CONTAINER
+   ============================================================================ */
+
+.container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    position: relative;
+    z-index: 2;
+}
+
+.header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.game-layout {
+    display: flex;
+    gap: 30px;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+.sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+    min-width: 180px;
+    max-width: 200px;
+}
+
+.game-intro {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.game-intro p {
+    font-size: 19px;
+    margin-bottom: 20px;
+    color: #00ffff;
+    text-shadow: 0 0 5px rgba(0, 255, 255, 0.5);
+    line-height: 1.6;
+    font-weight: 500;
+}
+
+.game-intro strong {
+    color: #ff00ff;
+    text-shadow: 0 0 5px #ff00ff;
+}
+
+.game-controls {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.game-explanation {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 15px;
+    line-height: 1.8;
+    color: #00ffff;
+    text-shadow: 0 0 5px rgba(0, 255, 255, 0.5);
+    font-weight: 500;
+}
+
+.game-explanation strong {
+    color: #ff00ff;
+    text-shadow: 0 0 5px #ff00ff;
+}

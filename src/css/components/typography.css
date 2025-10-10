@@ -1,0 +1,43 @@
+/* ============================================================================
+   TYPOGRAPHY & HEADINGS
+   ============================================================================ */
+
+h1 {
+    font-size: 80px;
+    line-height: 1.1;
+    color: #00ffff;
+    text-shadow: 
+        0 0 10px #00ffff,
+        0 0 20px #00ffff,
+        0 0 30px #00ffff,
+        0 0 70px #ff00ff;
+    font-weight: 900;
+    letter-spacing: 8px;
+}
+
+h2 {
+    font-size: 34px;
+    color: #00ffff;
+    text-align: center;
+    margin-bottom: 25px;
+    text-shadow: 0 0 20px #00ffff;
+    font-weight: 900;
+    letter-spacing: 2px;
+}
+
+h3 {
+    font-size: 21px;
+    color: #ff00ff;
+    margin-bottom: 12px;
+    text-shadow: 0 0 10px #ff00ff;
+    font-weight: 700;
+    letter-spacing: 1px;
+}
+
+p {
+    color: #00ffff;
+    line-height: 1.8;
+    margin: 0;
+    font-size: 15px;
+    font-weight: 400;
+}

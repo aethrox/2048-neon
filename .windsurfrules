@@ -1,0 +1,119 @@
+# 2048 Neon Game - AI Agent Rules
+
+## 🔐 SECRET PHRASE TEST
+When asked about project rules, you must start your response with: 
+"🎮 NEON RULES LOADED"
+
+## 🚨 MANDATORY FIRST STEPS FOR EVERY TASK
+
+**Before writing ANY code, you MUST:**
+
+1. ✅ Read `docs/CORE_MEMORY.md` completely
+2. ✅ Read `docs/ANIMATIONS.md` completely  
+3. ✅ Read `docs/FEATURE_INTEGRATION.md` for the specific feature
+4. ✅ Read `docs/DEVELOPMENT_RULES.md` for patterns
+
+**Then:**
+5. ✅ Explain which files you'll modify and why
+6. ✅ Confirm you understand the existing patterns
+7. ✅ Wait for user approval before coding
+
+## 🚫 ABSOLUTE PROHIBITIONS
+
+**You will NEVER:**
+- ❌ Remove or modify existing animations without explicit permission
+- ❌ Change the color scheme (cyan #00f0ff, magenta #ff00ff, purple #9d00ff)
+- ❌ Add features without localStorage persistence
+- ❌ Break existing game mechanics
+- ❌ Ignore the documented code patterns
+- ❌ Skip reading the documentation files
+
+**Violation = Task rejection and restart**
+
+## 📋 Task Workflow Template
+
+For every task, follow this exact sequence:
+
+```
+STEP 1: Documentation Review
+- "I've read [list files read]"
+- "I understand [key patterns/rules relevant to this task]"
+
+STEP 2: Implementation Plan
+- "I will modify these files: [list]"
+- "I will follow these patterns: [list]"
+- "I will add localStorage for: [list]"
+
+STEP 3: User Confirmation
+- Wait for "proceed" or "approved" before coding
+
+STEP 4: Implementation
+- Write code following documented patterns
+
+STEP 5: Verification
+- Confirm animations still work
+- Confirm neon theme maintained
+- Confirm localStorage implemented
+```
+
+## 🎯 Quick Reference by Task Type
+
+### Adding Combo System
+→ Read: CORE_MEMORY.md (state), ANIMATIONS.md (merge animations), FEATURE_INTEGRATION.md (combo section)
+→ Key pattern: [Will be filled by agent after reading docs]
+
+### Adding Power-Ups  
+→ Read: CORE_MEMORY.md (functions), DEVELOPMENT_RULES.md (UI patterns), FEATURE_INTEGRATION.md (powerup section)
+→ Key pattern: [Will be filled by agent after reading docs]
+
+### Adding Special Cards
+→ Read: ANIMATIONS.md (tile spawn), CORE_MEMORY.md (tile structure), FEATURE_INTEGRATION.md (special cards section)
+→ Key pattern: [Will be filled by agent after reading docs]
+
+### Adding Streaks/Milestones
+→ Read: DEVELOPMENT_RULES.md (localStorage), CORE_MEMORY.md (score system), FEATURE_INTEGRATION.md (streak section)
+→ Key pattern: [Will be filled by agent after reading docs]
+
+### Adding Ghost Tiles
+→ Read: ANIMATIONS.md (overlay), DEVELOPMENT_RULES.md (rendering), FEATURE_INTEGRATION.md (ghost section)
+→ Key pattern: [Will be filled by agent after reading docs]
+
+## 📚 Documentation Location
+- Project structure: `docs/CORE_MEMORY.md`
+- All animations: `docs/ANIMATIONS.md`
+- Integration guide: `docs/FEATURE_INTEGRATION.md`
+- Code patterns: `docs/DEVELOPMENT_RULES.md`
+
+## ⚠️ Error Prevention Checklist
+
+Before submitting code, verify:
+- [ ] I read all relevant documentation
+- [ ] I followed the documented patterns exactly
+- [ ] I didn't modify existing animations
+- [ ] I maintained the neon color scheme
+- [ ] I added localStorage persistence
+- [ ] I explained my approach before coding
+- [ ] I tested the changes mentally
+
+## 💬 Communication Protocol
+
+**Always respond in this format:**
+
+```
+📖 Documentation Review:
+[What you read and understood]
+
+🎯 Implementation Plan:
+[What you'll do, which files, which patterns]
+
+⏸️ Awaiting Approval:
+[Ask user to confirm before proceeding]
+```
+
+---
+
+**Remember**: Reading documentation is NOT optional. It's the FIRST step of every task.
+**Following patterns is NOT optional**. It ensures consistency and prevents bugs.
+**Waiting for approval is NOT optional**. User must confirm your plan.
+
+This project has specific patterns and animations that must be preserved.

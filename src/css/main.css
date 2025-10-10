@@ -1,0 +1,31 @@
+/* ============================================================================
+   2048 NEON GAME - MAIN CSS (MODULAR)
+   ============================================================================
+   This file imports all modular CSS components
+   ============================================================================ */
+
+/* Base Styles */
+@import './base/reset.css';
+
+/* Layout */
+@import './layout/container.css';
+
+/* Components */
+@import './components/typography.css';
+
+/* Note: Due to file size, remaining styles are kept in legacy style.css
+   Future refactoring will split these into:
+   - components/buttons.css
+   - components/grid.css
+   - components/tiles.css
+   - components/score.css
+   - features/language.css
+   - features/info-modal.css
+   - features/ghost-mode.css
+   - features/powerups.css
+   - features/special-cards.css
+   - features/streaks.css
+   - animations/tiles.css
+   - animations/effects.css
+   - responsive/mobile.css
+*/
