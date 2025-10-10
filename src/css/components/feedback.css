@@ -132,7 +132,7 @@
     text-shadow: 0 0 20px #ffbe0b;
 }
 
-/* Feedback Comment Field */
+/* Feedback Form Fields */
 .feedback-section label {
     color: #ff00ff;
     font-size: 14px;
@@ -140,6 +140,33 @@
     display: block;
     margin-bottom: 10px;
     text-shadow: 0 0 5px #ff00ff;
+}
+
+.feedback-email {
+    width: 100%;
+    background: rgba(0, 255, 255, 0.05);
+    border: 2px solid #00ffff;
+    border-radius: 8px;
+    padding: 12px;
+    color: #00ffff;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 14px;
+    box-shadow: 
+        0 0 10px rgba(0, 255, 255, 0.3),
+        inset 0 0 10px rgba(0, 255, 255, 0.1);
+    transition: all 0.3s;
+}
+
+.feedback-email:focus {
+    outline: none;
+    border-color: #ff00ff;
+    box-shadow: 
+        0 0 20px rgba(255, 0, 255, 0.5),
+        inset 0 0 15px rgba(255, 0, 255, 0.2);
+}
+
+.feedback-email::placeholder {
+    color: rgba(0, 255, 255, 0.4);
 }
 
 .feedback-comment {
@@ -238,7 +265,9 @@
 
 /* Feedback Footer */
 .feedback-footer {
-    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     padding-top: 15px;
     border-top: 2px solid rgba(0, 255, 255, 0.2);
 }
@@ -246,22 +275,32 @@
 .feedback-checkbox {
     display: inline-flex;
     align-items: center;
-    gap: 8px;
+    gap: 10px;
     cursor: pointer;
-    color: rgba(0, 255, 255, 0.7);
-    font-size: 13px;
+    color: #00ffff;
+    font-size: 14px;
+    font-weight: 600;
     user-select: none;
+    transition: all 0.3s;
+    text-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
 }
 
 .feedback-checkbox input[type="checkbox"] {
-    width: 18px;
-    height: 18px;
+    width: 20px;
+    height: 20px;
     cursor: pointer;
     accent-color: #00ffff;
+    border: 2px solid #00ffff;
+    border-radius: 4px;
 }
 
 .feedback-checkbox:hover {
-    color: #00ffff;
+    color: #ff00ff;
+    text-shadow: 0 0 15px rgba(255, 0, 255, 0.8);
+}
+
+.feedback-checkbox:hover input[type="checkbox"] {
+    accent-color: #ff00ff;
 }
 
 /* Mobile Responsive */
@@ -295,6 +334,11 @@
     
     .star {
         font-size: 32px;
+    }
+    
+    .feedback-email {
+        font-size: 13px;
+        padding: 10px;
     }
     
     .feedback-comment {

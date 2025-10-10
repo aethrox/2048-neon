@@ -17,6 +17,7 @@ let feedbackRating = 0;
 let feedbackModal;
 let feedbackClose;
 let stars;
+let feedbackEmail;
 let feedbackComment;
 let charCount;
 let submitFeedbackBtn;
@@ -29,6 +30,7 @@ export function initFeedback() {
     feedbackModal = document.getElementById('feedback-modal');
     feedbackClose = document.querySelector('.feedback-close');
     stars = document.querySelectorAll('.star');
+    feedbackEmail = document.getElementById('feedback-email');
     feedbackComment = document.getElementById('feedback-comment');
     charCount = document.getElementById('char-count');
     submitFeedbackBtn = document.getElementById('submit-feedback-btn');
@@ -165,10 +167,12 @@ export function checkFeedbackTrigger() {
 
 // Submit feedback via webhook
 export async function submitFeedback() {
+    const email = feedbackEmail ? feedbackEmail.value.trim() : '';
     const comment = feedbackComment.value.trim();
     
     const feedbackData = {
         rating: feedbackRating,
+        email: email || null,
         comment: comment || null,
         score: gameState.score,
         bestScore: gameState.bestScore,
@@ -207,6 +211,7 @@ export function closeFeedbackModal() {
     
     // Reset form
     feedbackRating = 0;
+    if (feedbackEmail) feedbackEmail.value = '';
     if (feedbackComment) feedbackComment.value = '';
     if (charCount) charCount.textContent = '0';
     if (submitFeedbackBtn) submitFeedbackBtn.disabled = true;

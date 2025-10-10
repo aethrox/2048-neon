@@ -176,6 +176,9 @@ class GameController {
             // Update streak based on merge count
             Streaks.update(state.mergeCountThisMove);
             
+            // Update power-up display (enables undo button after first move)
+            PowerUps.updateDisplay();
+            
             // Check for win (2048)
             if (!state.hasWon && this.checkWin()) {
                 state.hasWon = true;

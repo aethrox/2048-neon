@@ -5,6 +5,7 @@
 // ============================================================================
 
 import gameState from './GameState.js';
+import ScoreManager from './ScoreManager.js';
 import { SPECIAL_EFFECTS } from '../config/constants.js';
 import { showSpecialEffect } from './TileManager.js';
 
@@ -98,6 +99,7 @@ export function moveUp(board) {
                 const { newValue, bonusPoints } = processSpecialCardEffects(i, j, board[i][j] * 2, specialTypes);
                 board[i][j] = newValue;
                 gameState.updateScore(board[i][j] + bonusPoints);
+                ScoreManager.updateScoreDisplay();
                 board[i + 1][j] = 0;
                 gameState.addMergedPosition(i, j);
                 gameState.mergeCountThisMove++;
@@ -148,6 +150,7 @@ export function moveRight(board) {
                 const { newValue, bonusPoints } = processSpecialCardEffects(i, j, board[i][j] * 2, specialTypes);
                 board[i][j] = newValue;
                 gameState.updateScore(board[i][j] + bonusPoints);
+                ScoreManager.updateScoreDisplay();
                 board[i][j - 1] = 0;
                 moved = true;
                 gameState.addMergedPosition(i, j);
@@ -194,6 +197,7 @@ export function moveDown(board) {
                 const { newValue, bonusPoints } = processSpecialCardEffects(i, j, board[i][j] * 2, specialTypes);
                 board[i][j] = newValue;
                 gameState.updateScore(board[i][j] + bonusPoints);
+                ScoreManager.updateScoreDisplay();
                 board[i - 1][j] = 0;
                 gameState.addMergedPosition(i, j);
                 gameState.mergeCountThisMove++;
@@ -244,6 +248,7 @@ export function moveLeft(board) {
                 const { newValue, bonusPoints } = processSpecialCardEffects(i, j, board[i][j] * 2, specialTypes);
                 board[i][j] = newValue;
                 gameState.updateScore(board[i][j] + bonusPoints);
+                ScoreManager.updateScoreDisplay();
                 board[i][j + 1] = 0;
                 moved = true;
                 gameState.addMergedPosition(i, j);
