@@ -1,10 +1,15 @@
 # 2048 Neon Game - Cyberpunk Edition
 
-![Version](https://img.shields.io/badge/version-2.3.4-blue)
+<div align="center">
+  <img src="favicon.svg" alt="2048 Neon Game Icon" width="120" height="120">
+  <br><br>
+</div>
+
+![Version](https://img.shields.io/badge/version-2.4.0-blue)
 ![License](https://img.shields.io/badge/license-MIT-green)
 ![Status](https://img.shields.io/badge/status-production-brightgreen)
 
-A modern, modular implementation of the classic 2048 game with neon aesthetics, advanced features, and clean architecture.
+A modern, modular implementation of the classic 2048 game with neon aesthetics, cyberpunk visuals, advanced features, and clean architecture.
 
 ## 🎮 [Play Now](https://2048-neon.netlify.app/)
 
@@ -12,7 +17,8 @@ A modern, modular implementation of the classic 2048 game with neon aesthetics, 
 
 ### Core Gameplay
 - **Classic 2048 Mechanics** - Merge tiles to reach 2048 and beyond
-- **Neon Aesthetic** - Stunning cyan, magenta, and purple color scheme
+- **Cyberpunk Visual Theme** - Dark scanned grid background with neon aesthetics
+- **Neon Title Animation** - Flashing title effect mimicking real neon signs
 - **24 Unique Merge Animations** - Random animation effects for each merge
 - **Responsive Design** - Optimized for desktop and mobile devices
 - **Persistent Progress** - Game state saved in localStorage
@@ -60,11 +66,12 @@ src/js/
     └── EventHandlers.js      # Input events
 ```
 
-### CSS Structure (13 Files)
+### CSS Structure (14 Files)
 
 ```
 src/css/
 ├── main.css                  # Entry point
+├── animations.css            # Title flash & grid background
 ├── base/                     # Reset & variables
 ├── layout/                   # Grid & container
 ├── components/               # Tiles, buttons, modals
@@ -147,6 +154,7 @@ Initialization order in `main.js`:
 - **<50ms** tile movement response
 - **~200KB** total size (uncompressed)
 - **GPU-accelerated** CSS animations
+- **Lightweight background effects** - No performance impact
 
 ## 🌐 Browser Support
 
@@ -203,5 +211,5 @@ vercel --prod
 
 ---
 
-**Version 2.3.4** - UX Improvements & Language Selection  
-Made with ⚡ neon lights
+**Version 2.4.0** - Cyberpunk Visual Enhancement  
+Made with ⚡ neon lights and 🌌 cyberpunk aesthetics
