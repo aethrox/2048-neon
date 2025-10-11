@@ -1728,6 +1728,10 @@ document.addEventListener('DOMContentLoaded', () => {
     });
     newGameBtn2.addEventListener('click', initGame);
     
+    // Language modal elements
+    const languageModal = document.getElementById('language-modal');
+    const languageOptions = document.querySelectorAll('.language-option');
+    
     // Info modal listeners
     if (infoClose) {
         infoClose.addEventListener('click', () => {
@@ -1743,6 +1747,50 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
+    
+    // Language selection listeners
+    languageOptions.forEach(option => {
+        option.addEventListener('click', () => {
+            const lang = option.getAttribute('data-lang');
+            
+            // Set language
+            currentLanguage = lang;
+            localStorage.setItem('game-language', currentLanguage);
+            
+            // Update all texts
+            updateAllTexts();
+            
+            // Update menu language text
+            if (languageTextMenu) {
+                languageTextMenu.textContent = currentLanguage.toUpperCase();
+            }
+            
+            // Close language modal
+            languageModal.classList.remove('show');
+            
+            // Show info modal after short delay
+            setTimeout(() => {
+                infoModal.classList.add('show');
+            }, 300);
+            
+            // Mark as visited
+            localStorage.setItem('has-visited-game', 'true');
+        });
+    });
+    
+    // Check for first visit and show language modal
+    function checkFirstVisit() {
+        const hasVisited = localStorage.getItem('has-visited-game');
+        
+        if (!hasVisited) {
+            setTimeout(() => {
+                languageModal.classList.add('show');
+            }, 500);
+        }
+    }
+    
+    // Check first visit on load
+    checkFirstVisit();
     
     // Power-up button listeners
     undoBtn.addEventListener('click', usePowerUpUndo);
