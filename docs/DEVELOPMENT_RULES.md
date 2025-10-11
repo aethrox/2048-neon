@@ -1,719 +1,441 @@
-# Development Rules & Patterns
+# 2048 Neon Game - Development Rules
+Last Updated: 2025-10-11 (Version 2.3.4)
 
-## 🚫 ABSOLUTE NO-GO RULES
+## 🎯 Core Principles
 
-### 1. Never Remove Existing Merge Animations
-**Lines:** style.css (313-512)
+### 1. Modularity First
+- One responsibility per module
+- Clear import/export structure
+- Singleton pattern for shared state
+- No circular dependencies
+
+### 2. Performance Priority
+- GPU-accelerated animations
+- Minimize DOM manipulation
+- Use CSS transforms over position changes (except tiles)
+- Debounce expensive operations
+
+### 3. Code Quality
+- ES6+ syntax throughout
+- Consistent naming conventions
+- Self-documenting code
+- Comments for complex logic only
+
+## 📝 Naming Conventions
+
+### JavaScript
+```javascript
+// Variables & Functions: camelCase
+const currentScore = 0;
+function calculateScore() {}
+
+// Classes: PascalCase
+class GameController {}
+class TileManager {}
+
+// Constants: UPPER_SNAKE_CASE
+const GRID_SIZE = 4;
+const SPAWN_DELAY = 150;
+
+// Private methods: _prefixed
+_updateInternalState() {}
+
+// Boolean variables: is/has/should prefix
+let isMoving = false;
+let hasWon = false;
+let shouldUpdate = true;
+```
+
+### CSS
 ```css
-/* PROTECTED: Do not modify or delete */
-.tile.merge-1 through .tile.merge-24
-@keyframes merge-pop through @keyframes merge-matrix
+/* Classes: kebab-case */
+.game-container {}
+.powerup-btn {}
+.tile-2048 {}
+
+/* IDs: kebab-case */
+#new-game {}
+#score-display {}
+
+/* Data attributes: kebab-case */
+[data-value="2048"] {}
+[data-row="0"] {}
 ```
-**Reason:** Other features may depend on specific animation classes. Removing breaks random selection.
 
-### 2. Never Change Core Color Scheme Without Approval
-**Protected Colors:**
-- Primary Cyan: `#00ffff`
-- Primary Magenta: `#ff00ff`
-- Primary Purple: `#7b2cbf`, `#533483`
-- Background: `#0a0e27`, `#1a0b2e`, `#16003b`
+## 🏗️ Module Structure
 
-**Reason:** Cyberpunk aesthetic is core to the game's identity. Changing colors breaks visual consistency.
-
-### 3. Never Modify Tile Movement Logic Without Testing
-**Lines:** game.js (208-366)
+### Required Exports
 ```javascript
-// PROTECTED: Movement functions
-function moveUp(board) { ... }
-function moveDown(board) { ... }
-function moveLeft(board) { ... }
-function moveRight(board) { ... }
-```
-**Reason:** Movement logic is complex. Changes can break merging, scoring, or game state.
-
-### 4. Never Skip localStorage Persistence
-**Rule:** Any new game state (scores, power-ups, cards) MUST save to localStorage.
-```javascript
-// REQUIRED pattern for new features
-localStorage.setItem('featureName', JSON.stringify(data));
-```
-**Reason:** Players expect progress to persist across sessions.
-
-### 5. Never Use `var` - Always Use `const` or `let`
-**Reason:** ES6+ code style. `var` has function scope issues.
-
-### 6. Never Animate `left`/`top` Properties
-**Rule:** Use `transform` for animations, not `left`/`top`.
-```css
-/* WRONG */
-@keyframes bad-animation {
-    0% { left: 0; top: 0; }
-    100% { left: 100px; top: 100px; }
+// Default export for singletons
+class GameState {
+    // ...
 }
+export default new GameState();
 
-/* CORRECT */
-@keyframes good-animation {
-    0% { transform: translate(0, 0); }
-    100% { transform: translate(100px, 100px); }
-}
-```
-**Reason:** `left`/`top` trigger reflows (slow). `transform` uses GPU (fast).
-
-### 7. Never Remove the `isMoving` Flag Check
-**Lines:** game.js (121-122, 427)
-```javascript
-// REQUIRED: Always check before allowing moves
-if (isMoving) return false;
-isMoving = true;
-```
-**Reason:** Prevents concurrent moves that corrupt game state.
-
-### 8. Never Hardcode Grid Size
-**Rule:** Always use dynamic calculation based on `grid.offsetWidth`.
-```javascript
-// CORRECT
-const cellSize = (grid.offsetWidth - 45) / 4;
-```
-**Reason:** Enables responsive design for mobile.
-
-### 9. Never Delete Existing Event Listeners
-**Lines:** game.js (426-512)
-**Reason:** Keyboard and touch controls are core functionality.
-
-### 10. Never Use Inline Styles in HTML
-**Rule:** All styling must be in style.css or applied via JavaScript.
-**Reason:** Maintains separation of concerns and makes debugging easier.
-
----
-
-## ✅ MUST-FOLLOW PATTERNS
-
-### Adding New UI Elements
-
-**Pattern Used in This Codebase:**
-```javascript
-// 1. Create element
-const element = document.createElement('div');
-
-// 2. Set class (not inline styles)
-element.className = 'my-element';
-
-// 3. Set content
-element.textContent = 'Content';
-
-// 4. Set data attributes if needed
-element.dataset.value = value;
-element.dataset.id = id;
-
-// 5. Append to parent
-parentElement.appendChild(element);
-
-// 6. Return reference if needed
-return element;
+// Named exports for utilities
+export function formatScore(score) {}
+export const CONSTANTS = {};
 ```
 
-**Example from game.js (lines 76-103):**
+### Import Order
 ```javascript
-function createTile(row, col, value, isNew = false) {
-    const tile = document.createElement('div');
-    tile.className = 'tile';
-    tile.textContent = value;
-    tile.dataset.value = value;
-    tile.dataset.row = row;
-    tile.dataset.col = col;
-    
-    // Calculate position
-    const cellSize = (grid.offsetWidth - 45) / 4;
-    const gap = 15;
-    const x = col * (cellSize + gap);
-    const y = row * (cellSize + gap);
-    
-    tile.style.width = cellSize + 'px';
-    tile.style.height = cellSize + 'px';
-    tile.style.left = x + 'px';
-    tile.style.top = y + 'px';
-    
-    grid.appendChild(tile);
-    return tile;
-}
+// 1. Config
+import { GRID_SIZE } from './config/constants.js';
+import { t } from './config/translations.js';
+
+// 2. Core
+import GameState from './core/GameState.js';
+import TileManager from './core/TileManager.js';
+
+// 3. Features
+import PowerUps from './features/PowerUps.js';
+
+// 4. UI
+import Notifications from './ui/Notifications.js';
 ```
 
----
+## 🚫 Critical Rules - Never Break
 
-### Updating Game State
-
-**Pattern Used in This Codebase:**
+### 1. Tile Positioning
+**ALWAYS use `left/top`, NEVER use `transform`**
 ```javascript
-// 1. Check if action is allowed
-if (isMoving) return false;
+// ✅ CORRECT
+tile.style.left = x + 'px';
+tile.style.top = y + 'px';
 
-// 2. Set lock flag
-isMoving = true;
-
-// 3. Save old state (if needed for undo)
-const oldBoard = JSON.parse(JSON.stringify(board));
-
-// 4. Perform state mutation
-board[i][j] = newValue;
-
-// 5. Update UI
-refreshBoard();
-
-// 6. Update score/localStorage
-updateScore(points);
-
-// 7. Release lock
-isMoving = false;
-
-// 8. Return success/failure
-return true;
+// ❌ WRONG
+tile.style.transform = `translate(${x}px, ${y}px)`;
 ```
 
-**Example from game.js (lines 119-205):**
+### 2. Animation System
+**DO NOT modify the 24 merge animations**
+- Located in `src/css/animations/merge-animations.css`
+- Each animation is carefully balanced
+- Changing timing breaks game feel
+
+### 3. localStorage Keys
+**DO NOT rename these keys**
 ```javascript
-async function moveTiles(direction) {
-    if (isMoving) return false;
-    isMoving = true;
-    
-    let moved = false;
-    const oldBoard = JSON.parse(JSON.stringify(board));
-    
-    // Process move
-    switch (direction) {
-        case 'up': moved = moveUp(board); break;
-        // ... other directions
+// Critical keys - changing breaks persistence
+'bestScore'
+'game-language'
+'has-visited-game'
+'feedback-dismissed'
+'feedback-submitted'
+'games-played'
+```
+
+### 4. Movement Algorithm
+**DO NOT modify the slide-merge-slide pattern**
+- Core logic in `MovementEngine.js`
+- Tested pattern that ensures correct behavior
+- Changes will break game mechanics
+
+### 5. Color Palette
+**DO NOT change tile progression colors**
+- Each tile value has specific colors
+- Progression is carefully designed
+- Located in `src/css/components/tiles.css`
+
+## ✅ Best Practices
+
+### State Management
+```javascript
+// ✅ GOOD: Use GameState singleton
+import GameState from './core/GameState.js';
+const score = GameState.getScore();
+
+// ❌ BAD: Direct state access
+let globalScore = 0;
+```
+
+### DOM Manipulation
+```javascript
+// ✅ GOOD: Batch updates
+const fragment = document.createDocumentFragment();
+tiles.forEach(tile => fragment.appendChild(tile));
+grid.appendChild(fragment);
+
+// ❌ BAD: Multiple updates
+tiles.forEach(tile => grid.appendChild(tile));
+```
+
+### Event Listeners
+```javascript
+// ✅ GOOD: Single delegated listener
+grid.addEventListener('click', (e) => {
+    if (e.target.matches('.tile')) {
+        // Handle tile click
     }
-    
-    if (moved) {
-        // Update UI
-        tiles.forEach(tile => tile.remove());
-        
-        // Create new tiles
-        for (let i = 0; i < 4; i++) {
-            for (let j = 0; j < 4; j++) {
-                if (board[i][j] !== 0) {
-                    createTile(i, j, board[i][j], false);
-                }
-            }
-        }
-        
-        // Spawn new tile
-        await new Promise(resolve => setTimeout(resolve, 150));
-        addRandomTile();
-        
-        // Check win/lose
-        if (!canMove()) gameOver();
-        if (!hasWon && checkWin()) winGame();
-    }
-    
-    isMoving = false;
-    return moved;
-}
-```
+});
 
----
-
-### Adding Animations
-
-**Pattern Used in This Codebase:**
-```javascript
-// 1. Add animation class
-element.classList.add('animation-name');
-
-// 2. Remove after duration
-setTimeout(() => {
-    element.classList.remove('animation-name');
-}, durationInMs);
-```
-
-**Example from game.js (lines 84-88, 170-178):**
-```javascript
-// New tile animation
-if (isNew) {
-    tile.classList.add('new');
-    setTimeout(() => tile.classList.remove('new'), 200);
-}
-
-// Random merge animation
-if (mergedPositions.has(`${i}-${j}`)) {
-    const randomAnim = Math.floor(Math.random() * 24) + 1;
-    tile.classList.add(`merge-${randomAnim}`);
-    setTimeout(() => {
-        tile.classList.remove(`merge-${randomAnim}`);
-    }, 600);
-}
-```
-
-**CSS Pattern:**
-```css
-/* 1. Define animation class */
-.tile.animation-name {
-    animation: keyframe-name duration easing;
-}
-
-/* 2. Define keyframes */
-@keyframes keyframe-name {
-    0% { /* start state */ }
-    50% { /* mid state */ }
-    100% { /* end state */ }
-}
-```
-
----
-
-### localStorage Integration
-
-**Pattern Used in This Codebase:**
-```javascript
-// 1. Load on init
-let bestScore = localStorage.getItem('bestScore') || 0;
-
-// 2. Save on update
-function updateScore(points) {
-    score += points;
-    
-    if (score > bestScore) {
-        bestScore = score;
-        localStorage.setItem('bestScore', bestScore);
-    }
-}
-
-// 3. For objects, use JSON
-const data = { key: 'value' };
-localStorage.setItem('dataKey', JSON.stringify(data));
-
-// 4. Load objects with JSON.parse
-const loaded = JSON.parse(localStorage.getItem('dataKey')) || {};
-```
-
-**Example from game.js (lines 14, 112-116):**
-```javascript
-// Load
-let bestScore = localStorage.getItem('bestScore') || 0;
-
-// Save
-if (score > bestScore) {
-    bestScore = score;
-    bestScoreDisplay.textContent = bestScore;
-    localStorage.setItem('bestScore', bestScore);
-}
-```
-
----
-
-### Event Listener Pattern
-
-**Pattern Used in This Codebase:**
-```javascript
-// 1. Get element reference (top of file)
-const button = document.getElementById('button-id');
-
-// 2. Add listener (bottom of file, before init)
-button.addEventListener('click', handlerFunction);
-
-// 3. Handler function (defined earlier)
-function handlerFunction() {
-    // Handle event
-}
-
-// OR use arrow function for simple handlers
-button.addEventListener('click', () => {
-    // Simple logic
+// ❌ BAD: Multiple listeners
+tiles.forEach(tile => {
+    tile.addEventListener('click', handleClick);
 });
 ```
 
-**Example from game.js (lines 507-512):**
+### Async Operations
 ```javascript
-// Button listeners
-newGameBtn.addEventListener('click', initGame);
-tryAgainBtn.addEventListener('click', initGame);
-keepGoingBtn.addEventListener('click', () => {
-    winScreen.classList.remove('show');
+// ✅ GOOD: async/await
+async function moveT iles() {
+    await animateMovement();
+    await spawnNewTile();
+}
+
+// ❌ BAD: Callback hell
+moveAnim(() => {
+    spawnTile(() => {
+        updateUI(() => {
+            // ...
+        });
+    });
 });
-newGameBtn2.addEventListener('click', initGame);
 ```
 
----
+## 🔧 Adding New Features
 
-### Async Timing Pattern
+### Step-by-Step Process
 
-**Pattern Used in This Codebase:**
-```javascript
-// Use async/await with Promise + setTimeout
-async function myFunction() {
-    // Do something
-    
-    // Wait for animation
-    await new Promise(resolve => setTimeout(resolve, milliseconds));
-    
-    // Continue after delay
-}
-```
+1. **Plan Module Location**
+   - Config: Settings & constants
+   - Core: Game mechanics
+   - Features: Optional functionality
+   - UI: User interface components
 
-**Example from game.js (lines 185-186):**
-```javascript
-// Wait before spawning new tile
-await new Promise(resolve => setTimeout(resolve, 150));
-addRandomTile();
-```
+2. **Create Module File**
+   ```javascript
+   // src/js/features/NewFeature.js
+   class NewFeature {
+       constructor() {
+           // Initialize
+       }
+       
+       init() {
+           // Setup
+       }
+   }
+   
+   export default new NewFeature();
+   ```
 
----
+3. **Import in main.js**
+   ```javascript
+   import NewFeature from './features/NewFeature.js';
+   
+   document.addEventListener('DOMContentLoaded', () => {
+       // ... other initializations
+       NewFeature.init();
+   });
+   ```
 
-## 🎨 Visual Consistency Rules
+4. **Add CSS Module (if needed)**
+   ```css
+   /* src/css/features/new-feature.css */
+   .new-feature {
+       /* styles */
+   }
+   ```
 
-### All New Buttons
-**Required Styling:**
-```css
-.new-button {
-    background: linear-gradient(135deg, #ff00ff, #00ffff);
-    color: #0a0e27;
-    border: 2px solid #00ffff;
-    border-radius: 5px;
-    padding: 10px 20px;
-    font-size: 16px;
-    font-weight: bold;
-    cursor: pointer;
-    transition: all 0.3s;
-    box-shadow: 
-        0 0 20px rgba(0, 255, 255, 0.5),
-        inset 0 0 10px rgba(255, 255, 255, 0.3);
-    text-transform: uppercase;
-    letter-spacing: 2px;
-}
+5. **Import in main.css**
+   ```css
+   @import 'features/new-feature.css';
+   ```
 
-.new-button:hover {
-    transform: translateY(-2px);
-    box-shadow: 
-        0 0 30px rgba(0, 255, 255, 0.8),
-        0 5px 20px rgba(255, 0, 255, 0.4),
-        inset 0 0 15px rgba(255, 255, 255, 0.5);
-}
+6. **Update Documentation**
+   - Add to CHANGELOG.md
+   - Update CORE_MEMORY.md if it affects core mechanics
+   - Document in README.md if user-facing
 
-.new-button:disabled {
-    opacity: 0.3;
-    cursor: not-allowed;
-}
-```
+## 🧪 Testing Checklist
 
-### All New Text
-**Required Styling:**
-```css
-.new-text {
-    font-family: 'Orbitron', sans-serif;
-    color: #00ffff;
-    text-shadow: 0 0 10px #00ffff;
-}
+Before committing code:
 
-.new-text strong {
-    color: #ff00ff;
-    text-shadow: 0 0 10px #ff00ff;
-}
-```
-
-### All New Containers
-**Required Styling:**
-```css
-.new-container {
-    background: rgba(10, 14, 39, 0.8);
-    border: 2px solid #00ffff;
-    border-radius: 10px;
-    padding: 15px;
-    box-shadow: 
-        0 0 30px rgba(0, 255, 255, 0.3),
-        inset 0 0 30px rgba(255, 0, 255, 0.1);
-}
-```
-
-### All New Animations
-**Timing/Easing Standards:**
-- **Short animations:** 0.2-0.4s (UI feedback)
-- **Medium animations:** 0.4-0.6s (tile merges)
-- **Long animations:** 0.6-1.0s (special effects)
-- **Infinite loops:** 1.5-2.0s (glows, pulses)
-- **Easing:** ease-in-out (default), cubic-bezier for bounces
-
-### All Glow Effects
-**Standard box-shadow:**
-```css
-/* Cyan glow */
-box-shadow: 0 0 20px rgba(0, 255, 255, 0.5);
-
-/* Magenta glow */
-box-shadow: 0 0 20px rgba(255, 0, 255, 0.5);
-
-/* Combined glow */
-box-shadow: 
-    0 0 20px rgba(0, 255, 255, 0.5),
-    0 0 20px rgba(255, 0, 255, 0.5);
-
-/* Inset glow */
-box-shadow: 
-    0 0 20px rgba(0, 255, 255, 0.5),
-    inset 0 0 20px rgba(255, 0, 255, 0.2);
-```
-
----
-
-## 🧪 Testing Requirements
-
-### Quick Manual Test Checklist
-Run after every change:
-
-**Core Gameplay (2 minutes):**
-- [ ] New game starts with 2 tiles
-- [ ] Arrow keys move tiles (all 4 directions)
-- [ ] Tiles merge when matching
-- [ ] Score increases on merge
-- [ ] New tile spawns after move
-- [ ] Game over triggers when stuck
-- [ ] Win screen shows at 2048
-
-**Animations (1 minute):**
-- [ ] New tiles animate in
-- [ ] Merge animations play (try multiple merges)
-- [ ] 2048 tile glows
-- [ ] No visual glitches
-
-**Mobile (1 minute on phone):**
-- [ ] Swipe gestures work
-- [ ] Layout fits screen
-- [ ] Buttons are tappable
-
-**Persistence (30 seconds):**
-- [ ] Refresh page
-- [ ] Best score is saved
-
-### Regression Test (After Major Changes)
-**Full test suite (5 minutes):**
-1. Play full game to 2048
-2. Test all 4 directions multiple times
-3. Verify all merge animations appear
-4. Test on mobile device
-5. Clear localStorage and test fresh start
-6. Check browser console for errors
-
----
-
-## 📦 Dependencies
-
-### External Libraries
-**Google Fonts:**
-- **URL:** `https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap`
-- **Version:** Latest (CDN auto-updates)
-- **Usage:** All text elements
-- **Fallback:** sans-serif
-- **Import:** Line 1 in style.css
-
-### Browser APIs
-- **localStorage** - Best score persistence
-- **Touch Events API** - Mobile swipe controls
-- **CSS Animations API** - All visual animations
-- **DOM API** - Element creation/manipulation
-
-### No npm Packages
-This project has ZERO npm dependencies. Keep it that way unless absolutely necessary.
-
----
-
-## ⚠️ Known Issues
-
-### Current Bugs/Limitations
-
-**1. Tile Recreation Performance**
-- **Issue:** All tiles removed and recreated on every move
-- **Impact:** Slight performance overhead on older devices
-- **Workaround:** None needed (works well enough)
-- **Fix Priority:** Low
-- **Lines:** game.js (161-182)
-
-**2. No Move History**
-- **Issue:** Cannot undo moves
-- **Impact:** Blocks undo power-up feature
-- **Workaround:** Must implement for power-ups
-- **Fix Priority:** High (needed for planned features)
-- **Solution:** Add `moveHistory` array in state
-
-**3. No Animation Queuing**
-- **Issue:** Rapid inputs during animation are ignored
-- **Impact:** User must wait for animation
-- **Workaround:** `isMoving` flag prevents issues
-- **Fix Priority:** Low (acceptable UX)
-
-**4. LocalStorage Only**
-- **Issue:** No cloud save or cross-device sync
-- **Impact:** Best score lost if localStorage cleared
-- **Workaround:** None
-- **Fix Priority:** Low (acceptable for MVP)
-
-**5. No Service Worker**
-- **Issue:** Not a PWA, no offline support
-- **Impact:** Requires internet connection
-- **Workaround:** None
-- **Fix Priority:** Medium (nice to have)
-
----
-
-## 💡 Common Pitfalls to Avoid
-
-### Pitfall 1: Forgetting to Clear Animation Classes
-**Problem:**
-```javascript
-tile.classList.add('merge-5');
-// Animation won't re-trigger on next merge!
-```
-
-**Solution:**
-```javascript
-tile.classList.add('merge-5');
-setTimeout(() => {
-    tile.classList.remove('merge-5'); // REQUIRED
-}, 600);
-```
-
-### Pitfall 2: Modifying Board During Iteration
-**Problem:**
-```javascript
-for (let i = 0; i < 4; i++) {
-    for (let j = 0; j < 4; j++) {
-        if (board[i][j] === 2) {
-            board[i][j] = 4; // Modifies during iteration
-        }
-    }
-}
-```
-
-**Solution:**
-```javascript
-// Save old state first
-const oldBoard = JSON.parse(JSON.stringify(board));
-
-// Then modify
-for (let i = 0; i < 4; i++) {
-    for (let j = 0; j < 4; j++) {
-        if (oldBoard[i][j] === 2) {
-            board[i][j] = 4;
-        }
-    }
-}
-```
-
-### Pitfall 3: Not Checking `isMoving` Flag
-**Problem:**
-```javascript
-function newFeature() {
-    // Modifies board without checking lock
-    board[0][0] = 2;
-}
-```
-
-**Solution:**
-```javascript
-function newFeature() {
-    if (isMoving) return false;
-    isMoving = true;
-    
-    board[0][0] = 2;
-    
-    isMoving = false;
-    return true;
-}
-```
-
-### Pitfall 4: Hardcoding Colors
-**Problem:**
-```css
-.new-element {
-    color: #00ff00; /* Wrong color! */
-}
-```
-
-**Solution:**
-```css
-.new-element {
-    color: #00ffff; /* Use theme colors */
-}
-```
-
-### Pitfall 5: Using Inline Styles
-**Problem:**
-```javascript
-element.style.color = '#00ffff';
-element.style.fontSize = '20px';
-element.style.padding = '10px';
-```
-
-**Solution:**
-```javascript
-// Add class instead
-element.className = 'styled-element';
-
-// Define in CSS
-.styled-element {
-    color: #00ffff;
-    font-size: 20px;
-    padding: 10px;
-}
-```
-
-### Pitfall 6: Forgetting Mobile Responsiveness
-**Problem:**
-```css
-.new-feature {
-    width: 500px; /* Fixed width breaks mobile */
-}
-```
-
-**Solution:**
-```css
-.new-feature {
-    width: 100%;
-    max-width: 500px;
-}
-
-@media (max-width: 768px) {
-    .new-feature {
-        width: 90%;
-    }
-}
-```
-
-### Pitfall 7: Not Testing on Actual Mobile Device
-**Problem:** Only testing in browser DevTools mobile emulation.
-
-**Solution:** Always test on real phone before considering feature complete.
-
-### Pitfall 8: Breaking localStorage Keys
-**Problem:**
-```javascript
-// Renaming key breaks existing saves
-localStorage.setItem('newBestScore', bestScore);
-```
-
-**Solution:**
-```javascript
-// Keep existing key or migrate data
-const oldScore = localStorage.getItem('bestScore');
-if (oldScore) {
-    localStorage.setItem('newBestScore', oldScore);
-    localStorage.removeItem('bestScore');
-}
-```
-
----
-
-## 🎯 Code Review Checklist
-
-Before committing any code:
-
-- [ ] No `var` declarations (use `const`/`let`)
-- [ ] All animations have cleanup (remove class after duration)
-- [ ] `isMoving` flag checked before state changes
-- [ ] Colors match theme (cyan/magenta/purple)
-- [ ] localStorage saves new persistent data
-- [ ] Mobile responsive (test on phone)
+- [ ] Tiles move correctly in all 4 directions
+- [ ] Merging works without duplication
+- [ ] Score updates accurately
+- [ ] Animations play smoothly
 - [ ] No console errors
-- [ ] Existing animations still work
-- [ ] Code follows existing patterns
-- [ ] Comments added for complex logic
-- [ ] No inline styles in HTML
-- [ ] No hardcoded values (use calculations)
+- [ ] localStorage persists correctly
+- [ ] Mobile touch works
+- [ ] Language switching works
+- [ ] Power-ups function correctly
+- [ ] Ghost mode toggles properly
+- [ ] Responsive on mobile (768px, 480px)
+
+## 📊 Performance Guidelines
+
+### CSS
+- Use `will-change` for animated elements
+- Prefer `transform` and `opacity` for animations
+- Use GPU acceleration with `translateZ(0)`
+- Minimize shadow layers (max 2 per element)
+- Keep blur radius ≤ 40px
+
+### JavaScript
+- Debounce rapid events (resize, scroll)
+- Use `requestAnimationFrame` for animations
+- Batch DOM reads and writes
+- Cache DOM queries
+- Use event delegation
+
+### Example: Optimized Animation
+```css
+/* ✅ GOOD: GPU-accelerated */
+.tile {
+    will-change: transform;
+    transform: translate3d(0, 0, 0);
+}
+
+@keyframes slide {
+    from { transform: translate3d(0, -50px, 0); }
+    to { transform: translate3d(0, 0, 0); }
+}
+
+/* ❌ BAD: CPU-bound */
+@keyframes slide {
+    from { top: 0px; }
+    to { top: 50px; }
+}
+```
+
+## 🐛 Debugging Tips
+
+### Common Issues
+
+**Tiles don't move:**
+- Check `isMoving` flag
+- Verify event listeners attached
+- Check console for errors
+- Ensure GameState is initialized
+
+**Animations stuttering:**
+- Check for too many shadow layers
+- Verify GPU acceleration is active
+- Reduce animation complexity
+- Check browser performance tools
+
+**State not persisting:**
+- Verify localStorage keys are correct
+- Check for JSON parse errors
+- Ensure data is saved after changes
+- Test in incognito mode
+
+### Debug Mode
+```javascript
+// Add to main.js for debugging
+if (process.env.NODE_ENV === 'development') {
+    window.GameState = GameState;
+    window.TileManager = TileManager;
+    console.log('Debug mode active');
+}
+```
+
+## 📚 Code Review Checklist
+
+- [ ] Follows naming conventions
+- [ ] No duplicate code
+- [ ] Proper error handling
+- [ ] Comments where needed
+- [ ] No console.logs in production
+- [ ] Imports organized correctly
+- [ ] No unused variables
+- [ ] Proper spacing and indentation
+- [ ] CSS is modular
+- [ ] No !important in CSS (except overrides)
+
+## 🔄 Version Control
+
+### Commit Message Format
+```
+type(scope): description
+
+feat(power-ups): add new shuffle power-up
+fix(movement): resolve merge duplication bug
+docs(readme): update installation instructions
+style(css): improve button hover effects
+perf(animations): optimize merge animations
+```
+
+### Types
+- `feat`: New feature
+- `fix`: Bug fix
+- `docs`: Documentation
+- `style`: Formatting (no code change)
+- `refactor`: Code restructure
+- `perf`: Performance improvement
+- `test`: Adding tests
+- `chore`: Maintenance
+
+## 🎨 CSS Architecture
+
+### Organization
+```css
+/* 1. Base & Variables */
+@import 'base/reset.css';
+@import 'base/variables.css';
+
+/* 2. Layout */
+@import 'layout/grid.css';
+@import 'layout/container.css';
+
+/* 3. Components */
+@import 'components/tiles.css';
+@import 'components/buttons.css';
+
+/* 4. Features */
+@import 'features/powerups.css';
+
+/* 5. Animations */
+@import 'animations/merge-animations.css';
+
+/* 6. Responsive (last) */
+@import 'layout/responsive.css';
+```
+
+### BEM-like Naming (Optional)
+```css
+/* Block */
+.game-container {}
+
+/* Element */
+.game-container__grid {}
+.game-container__score {}
+
+/* Modifier */
+.game-container--mobile {}
+.game-container--landscape {}
+```
+
+## 🚀 Deployment
+
+### Pre-Deployment Checklist
+- [ ] All tests pass
+- [ ] No console errors
+- [ ] Build succeeds
+- [ ] Performance metrics met
+- [ ] Cross-browser tested
+- [ ] Mobile tested
+- [ ] Documentation updated
+- [ ] CHANGELOG updated
+- [ ] Version bumped
+
+### Build Process
+```bash
+# No build process - pure client-side
+# Just ensure all files are committed
+git add .
+git commit -m "release: v2.3.4"
+git push origin main
+```
+
+## 📖 Resources
+
+- [MDN Web Docs](https://developer.mozilla.org)
+- [ES6 Modules Guide](https://javascript.info/modules)
+- [CSS Performance](https://developer.mozilla.org/en-US/docs/Web/Performance/CSS_JavaScript_animation_performance)
+- [Web.dev](https://web.dev)
+
+---
+
+**Remember:** Quality over quantity. Clean, maintainable code is better than clever, complex code.
