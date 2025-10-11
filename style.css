@@ -219,6 +219,14 @@ button:hover {
     text-align: center;
     margin-bottom: 5px;
     text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+}
+
+.powerups-title .title-svg-icon {
+    filter: drop-shadow(0 0 8px #ff00ff);
 }
 
 .grid {
@@ -1263,8 +1271,28 @@ button:hover {
 }
 
 .powerup-icon {
-    font-size: 32px;
-    line-height: 1;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.powerup-icon svg {
+    width: 28px;
+    height: 28px;
+    stroke: currentColor;
+    transition: all 0.3s;
+}
+
+.powerup-btn:hover:not(:disabled) .powerup-icon svg {
+    stroke: #ff00ff;
+    filter: drop-shadow(0 0 8px #ff00ff);
+}
+
+.powerup-btn:disabled .powerup-icon svg {
+    stroke: rgba(255, 255, 255, 0.2);
 }
 
 .powerup-name {
@@ -1667,8 +1695,43 @@ button:hover {
 
 /* Menu item icon and text */
 .menu-item-icon {
-    font-size: 20px;
-    line-height: 1;
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.menu-item-icon svg {
+    width: 20px;
+    height: 20px;
+    stroke: currentColor;
+    fill: none;
+}
+
+.menu-item-icon svg[fill="currentColor"] {
+    fill: currentColor;
+    stroke: none;
+}
+
+/* SVG icons in menu sections */
+.menu-svg-icon {
+    width: 18px;
+    height: 18px;
+    margin-right: 8px;
+    flex-shrink: 0;
+}
+
+.menu-section-title {
+    display: flex;
+    align-items: center;
+}
+
+.title-svg-icon {
+    width: 16px;
+    height: 16px;
+    margin-right: 6px;
     flex-shrink: 0;
 }
 
