@@ -28,41 +28,83 @@
             </div>
             <div class="menu-items">
                 <!-- Main Actions -->
-                <button id="new-game-menu" class="menu-item" data-translate="newGame">🆕 New Game</button>
-                <button id="ghost-toggle-menu" class="menu-item ghost-toggle"><span data-translate="ghostMode">👻 Ghost Mode</span></button>
+                <button id="new-game-menu" class="menu-item" data-translate="newGame">
+                    <svg class="menu-svg-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M12 5v14M5 12h14"/>
+                    </svg>
+                    <span>New Game</span>
+                </button>
+                <button id="ghost-toggle-menu" class="menu-item ghost-toggle">
+                    <svg class="menu-svg-icon" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 2c-4.4 0-8 3.6-8 8v8c0 .6.4 1 1 1h2l1-3h8l1 3h2c.6 0 1-.4 1-1v-8c0-4.4-3.6-8-8-8zm-3 11c-.6 0-1-.4-1-1s.4-1 1-1 1 .4 1 1-.4 1-1 1zm6 0c-.6 0-1-.4-1-1s.4-1 1-1 1 .4 1 1-.4 1-1 1z"/>
+                    </svg>
+                    <span data-translate="ghostMode">Ghost Mode</span>
+                </button>
                 
                 <!-- Utility Section -->
-                <div class="menu-section-title" data-translate="settings">⚙️ SETTINGS</div>
+                <div class="menu-section-title" data-translate="settings">
+                    <svg class="menu-svg-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="3"/>
+                        <path d="M12 1v6m0 6v6M1 12h6m6 0h6m-2.5-7.5l-4.2 4.2m0 4.6l4.2 4.2M6.7 6.7l4.2 4.2m0 4.6l-4.2 4.2"/>
+                    </svg>
+                    <span>SETTINGS</span>
+                </div>
                 
                 <button id="info-btn-menu" class="menu-item">
-                    <span class="menu-item-icon">💡</span>
+                    <span class="menu-item-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="10"/>
+                            <path d="M12 16v-4m0-4h.01"/>
+                        </svg>
+                    </span>
                     <span class="menu-item-text" data-translate="howToPlay">How to Play</span>
                 </button>
                 
                 <button id="language-btn-menu" class="menu-item">
-                    <span class="menu-item-icon">🌐</span>
+                    <span class="menu-item-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="10"/>
+                            <path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+                        </svg>
+                    </span>
                     <span class="menu-item-text"><span data-translate="language">Language</span>: <span id="language-text-menu">EN</span></span>
                 </button>
                 
                 <a href="https://buymeacoffee.com/aethrox" target="_blank" rel="noopener noreferrer" class="menu-item menu-link" title="Support this project">
-                    <span class="menu-item-icon">☕</span>
+                    <span class="menu-item-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M18 8h1a4 4 0 0 1 0 8h-1M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/>
+                            <line x1="6" y1="1" x2="6" y2="4"/>
+                            <line x1="10" y1="1" x2="10" y2="4"/>
+                            <line x1="14" y1="1" x2="14" y2="4"/>
+                        </svg>
+                    </span>
                     <span class="menu-item-text" data-translate="buyMeCoffee">Buy Me a Coffee</span>
                 </a>
                 
-                <a href="https://github.com/aethrox/2048-neon-game" target="_blank" rel="noopener noreferrer" class="menu-item menu-link" title="Contribute to the project">
+                <a href="https://github.com/aethrox/2048-neon" target="_blank" rel="noopener noreferrer" class="menu-item menu-link" title="Contribute to the project">
                     <span class="menu-item-icon">
-                        <svg height="20" width="20" viewBox="0 0 16 16" fill="currentColor">
-                            <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"></path>
+                        <svg viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
                         </svg>
                     </span>
                     <span class="menu-item-text" data-translate="contributeGitHub">You can contribute to the project here</span>
                 </a>
                 
                 <!-- Feedback Section -->
-                <div class="menu-section-title" data-translate="feedbackSection">💬 FEEDBACK</div>
+                <div class="menu-section-title" data-translate="feedbackSection">
+                    <svg class="menu-svg-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+                    </svg>
+                    <span>FEEDBACK</span>
+                </div>
                 
                 <button id="feedback-btn-menu" class="menu-item">
-                    <span class="menu-item-icon">💬</span>
+                    <span class="menu-item-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/>
+                        </svg>
+                    </span>
                     <span class="menu-item-text" data-translate="giveFeedback">Give Feedback</span>
                 </button>
             </div>
@@ -117,19 +159,41 @@
             
             <!-- Power-Ups Sidebar -->
             <div class="powerups-sidebar">
-                <div class="powerups-title" data-translate="enhancements">⚡ ENHANCEMENTS</div>
+                <div class="powerups-title" data-translate="enhancements">
+                    <svg class="title-svg-icon" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M13 2L3 14h8l-1 8 10-12h-8l1-8z"/>
+                    </svg>
+                    <span>ENHANCEMENTS</span>
+                </div>
                 <button id="undo-btn" class="powerup-btn" title="Undo last move">
-                    <span class="powerup-icon">🔄</span>
+                    <span class="powerup-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                            <path d="M3 7v6h6"/>
+                            <path d="M21 17a9 9 0 0 0-9-9 9 9 0 0 0-6 2.3L3 13"/>
+                        </svg>
+                    </span>
                     <span class="powerup-name" data-translate="undo">UNDO</span>
                     <span class="powerup-count" id="undo-count">3</span>
                 </button>
                 <button id="hint-btn" class="powerup-btn" title="Show best move">
-                    <span class="powerup-icon">💡</span>
+                    <span class="powerup-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M9 18h6"/>
+                            <path d="M10 22h4"/>
+                            <path d="M15 2a6 6 0 0 1 0 12H9a6 6 0 0 1 0-12z"/>
+                        </svg>
+                    </span>
                     <span class="powerup-name" data-translate="hint">HINT</span>
                     <span class="powerup-count" id="hint-count">5</span>
                 </button>
                 <button id="remove-btn" class="powerup-btn" title="Remove any tile">
-                    <span class="powerup-icon">🗑️</span>
+                    <span class="powerup-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                            <path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
+                            <line x1="10" y1="11" x2="10" y2="17"/>
+                            <line x1="14" y1="11" x2="14" y2="17"/>
+                        </svg>
+                    </span>
                     <span class="powerup-name" data-translate="remove">REMOVE</span>
                     <span class="powerup-count" id="remove-count">2</span>
                 </button>
