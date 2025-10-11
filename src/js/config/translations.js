@@ -78,6 +78,7 @@ export const translations = {
         submitFeedback: "Geri Bildirim Gönder",
         skipFeedback: "Belki Sonra",
         dontShowAgain: "Bunu tekrar gösterme",
+        dontShowInfoAgain: "Bunu tekrar gösterme",
         feedbackThankYou: "Teşekkürler! Geri bildiriminiz gönderildi. 🎉",
         feedbackError: "Geri bildirim gönderilemedi. Lütfen tekrar deneyin."
     },
@@ -154,6 +155,7 @@ export const translations = {
         submitFeedback: "Submit Feedback",
         skipFeedback: "Maybe Later",
         dontShowAgain: "Don't show this again",
+        dontShowInfoAgain: "Don't show this again",
         feedbackThankYou: "Thank you! Your feedback has been sent. 🎉",
         feedbackError: "Failed to send feedback. Please try again."
     }
