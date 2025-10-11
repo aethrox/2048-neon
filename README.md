@@ -6,7 +6,7 @@
 
 A modern, modular implementation of the classic 2048 game with neon aesthetics, advanced features, and clean architecture.
 
-## 🎮 [Play Now](https://your-deployment-url.com)
+## 🎮 [Play Now](https://2048-neon.netlify.app/)
 
 ## ✨ Features
 
@@ -119,7 +119,7 @@ src/css/
 npm install -g live-server
 
 # Clone and run
-git clone https://github.com/yourusername/2048-neon.git
+git clone https://github.com/aethrox/2048-neon.git
 cd 2048-neon
 live-server
 ```
@@ -128,7 +128,7 @@ live-server
 
 ```bash
 # Clone the repository
-git clone https://github.com/yourusername/2048-neon.git
+git clone https://github.com/aethrox/2048-neon.git
 cd 2048-neon
 
 # Python 3
