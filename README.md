@@ -298,7 +298,7 @@ MIT License - see [LICENSE](LICENSE) file for details
 ## 🐛 Bug Reports
 
 Found a bug? Please report it:
-1. Use the in-game feedback system (☰ → Share Feedback)
+1. Use the in-game feedback system (☰ → Give Feedback)
 2. Or create an issue on GitHub
 
 ## 🚀 Deployment
@@ -346,4 +346,4 @@ If you enjoy this game, please:
 ---
 
 **Version 2.3.0** - Modular Architecture  
-Made with ❤️ and ⚡ neon lights
+Made with cline, vscode and ⚡ neon lights
