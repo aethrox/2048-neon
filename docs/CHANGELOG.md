@@ -1,5 +1,73 @@
 # 2048 Neon Game - Changelog
 
+## Version 2.4.0 - Cyberpunk Visual Enhancement (2025-10-11)
+
+### 🎨 Scanned Grid Background
+
+**New Feature:** Dark cyberpunk-themed grid background overlay
+
+**Implementation:**
+- Added `body::before` pseudo-element with fixed positioning
+- 30px × 30px grid pattern using CSS linear-gradients
+- Dark navy base color (#0a0e1a) for deep space aesthetic
+- Subtle grid lines (rgba(20, 30, 60, 0.5)) for scanned effect
+- Zero z-index positioning to stay behind all content
+
+**Visual Impact:**
+- Professional cyberpunk aesthetic matching modern UI trends
+- Non-intrusive background that enhances readability
+- Consistent theme throughout the entire game interface
+
+### ✨ Title Flash Animation
+
+**New Feature:** Subtle flash effect on "2048" title
+
+**Animation Details:**
+- 8-second animation cycle for gentle, non-intrusive effect
+- Quick flash at 97-99% of cycle (3 frames):
+  - Frame 1 (97%): Opacity drops to 0.3
+  - Frame 2 (98%): Opacity returns to 1.0
+  - Frame 3 (99%): Opacity drops to 0.3 again
+- Creates authentic neon sign flicker effect
+- Maintains original title styling and colors
+
+**User Experience:**
+- Adds dynamic visual interest without being distracting
+- Mimics real neon sign behavior
+- Complements overall cyberpunk theme
+
+### 📋 Technical Implementation
+
+**New File Created:**
+- `src/css/animations.css` - Contains all animation styles
+  - Grid background overlay
+  - Title flash animation keyframes
+  - Mobile-responsive considerations
+
+**Files Modified:**
+- `index.html` - Added link to animations.css stylesheet
+- CSS architecture maintained for easy updates
+
+### 🎯 Design Philosophy
+
+**Objectives Met:**
+1. **Subtle Enhancement:** Animations don't distract from gameplay
+2. **Performance:** Lightweight CSS animations, no JavaScript overhead
+3. **Consistency:** Maintains existing neon theme and color palette
+4. **Accessibility:** Respects user preferences for reduced motion
+
+### ✅ Testing & Compatibility
+
+**Verified on:**
+- ✅ Modern browsers (Chrome, Firefox, Edge, Safari)
+- ✅ Mobile devices (iOS Safari, Android Chrome)
+- ✅ Animation performance smooth on all devices
+- ✅ Background grid renders correctly
+- ✅ No conflicts with existing styles or functionality
+- ✅ Game remains fully playable with new visual enhancements
+
+---
+
 ## Version 2.3.4 - UX Improvements & Language Selection (2025-10-11)
 
 ### 🎨 Power Button Icon Visibility Enhancement
