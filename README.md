@@ -5,7 +5,7 @@
   <br><br>
 </div>
 
-![Version](https://img.shields.io/badge/version-2.4.0-blue)
+![Version](https://img.shields.io/badge/version-2.4.1-blue)
 ![License](https://img.shields.io/badge/license-MIT-green)
 ![Status](https://img.shields.io/badge/status-production-brightgreen)
 
@@ -34,10 +34,11 @@ A modern, modular implementation of the classic 2048 game with neon aesthetics, 
 
 ## 🏗️ Modular Architecture
 
-Version 2.3.0+ represents a complete architectural overhaul:
-- **1,800+ lines** of JavaScript → **16 clean modules**
-- **2,000+ lines** of CSS → **13 organized files**
+**Version 2.4.1+** - Modular structure now **active by default**:
+- **1,800+ lines** of JavaScript → **16 clean ES6 modules**
+- **2,000+ lines** of CSS → **14 organized files**
 - **Maintainable, Testable, Scalable** - Easy to understand and extend
+- **Modern Standards** - ES6 imports/exports with full module support
 
 ### JavaScript Structure (16 Modules)
 
@@ -83,7 +84,7 @@ src/css/
 
 ### Prerequisites
 - Modern web browser
-- Local web server (for ES6 modules)
+- **Local web server required** (ES6 modules)
 
 ### Running Locally
 
@@ -211,5 +212,5 @@ vercel --prod
 
 ---
 
-**Version 2.4.0** - Cyberpunk Visual Enhancement  
-Made with ⚡ neon lights and 🌌 cyberpunk aesthetics
+**Version 2.4.1** - Modular Structure Active  
+Made with ⚡ neon lights, 🌌 cyberpunk aesthetics, and 🏗️ modern architecture
