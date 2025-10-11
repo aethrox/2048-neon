@@ -1,0 +1,44 @@
+/* ============================================================================
+   SCANNED GRID BACKGROUND & TITLE ANIMATIONS
+   ============================================================================ */
+
+/* Override body background */
+body {
+    background: #0a0e1a !important;
+}
+
+/* Animated Grid Background - Dark Grid Pattern */
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #0a0e1a;
+    background-image: 
+        linear-gradient(rgba(20, 30, 60, 0.5) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(20, 30, 60, 0.5) 1px, transparent 1px);
+    background-size: 30px 30px;
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* Title - Simple Flash Effect */
+h1 {
+    animation: simple-flash 4s ease-in-out infinite;
+}
+
+@keyframes simple-flash {
+    0%, 96%, 100% {
+        opacity: 1;
+    }
+    
+    97%, 99% {
+        opacity: 0.3;
+    }
+    
+    98% {
+        opacity: 1;
+    }
+}
