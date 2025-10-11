@@ -1221,7 +1221,7 @@ button:hover {
 
 .powerup-btn {
     position: relative;
-    background: linear-gradient(135deg, rgba(0, 255, 255, 0.1), rgba(255, 0, 255, 0.1));
+    background: linear-gradient(135deg, rgba(0, 255, 255, 0.25), rgba(255, 0, 255, 0.25));
     border: 2px solid #00ffff;
     border-radius: 8px;
     padding: 15px 20px;
@@ -1232,9 +1232,10 @@ button:hover {
     cursor: pointer;
     transition: all 0.3s;
     width: 100%;
+    color: #00ffff;
     box-shadow: 
-        0 0 15px rgba(0, 255, 255, 0.3),
-        inset 0 0 10px rgba(0, 255, 255, 0.1);
+        0 0 20px rgba(0, 255, 255, 0.5),
+        inset 0 0 15px rgba(0, 255, 255, 0.2);
 }
 
 .powerup-btn:hover:not(:disabled) {
@@ -2087,8 +2088,9 @@ button:hover {
     }
     
     .game-explanation {
-        font-size: 12px;
+        font-size: 15px;
         padding: 0 10px;
+        line-height: 1.8;
     }
     
     
@@ -2226,7 +2228,7 @@ button:hover {
     }
     
     .game-intro p {
-        font-size: 12px;
+        font-size: 14px;
     }
     
     button {
