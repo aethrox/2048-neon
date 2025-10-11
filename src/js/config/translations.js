@@ -162,7 +162,9 @@ let currentLanguage = localStorage.getItem('game-language') || 'en';
 
 // Get translation by key
 export function t(key) {
-    return translations[currentLanguage][key] || key;
+    // Always read from localStorage to ensure we use the current language
+    const lang = localStorage.getItem('game-language') || 'en';
+    return translations[lang][key] || key;
 }
 
 // Get current language
