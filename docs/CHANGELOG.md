@@ -1,5 +1,165 @@
 # 2048 Neon Game - Changelog
 
+## Version 2.3.1 - Icon Redesign & Bug Fixes (2025-10-11)
+
+### 🎨 Comprehensive Icon System Redesign
+
+**Replaced All Emojis with Professional SVG Icons:**
+- ✅ Converted all 13 buttons to use clean SVG icons
+- ✅ Implemented neon theme across all icons
+- ✅ Added hover effects with color transitions
+- ✅ Added glow animations (drop-shadow filters)
+- ✅ Consistent sizing and stroke-width
+- ✅ Professional, modern appearance
+
+**Menu Icons (9 redesigned):**
+1. **New Game**: Plus sign (add/new) - Stroke SVG
+2. **Ghost Mode**: Ghost silhouette - Filled SVG
+3. **Settings Section**: Gear/cog - Animated stroke
+4. **How to Play**: Info circle - Circle with "i"
+5. **Language**: Globe with meridians - International symbol
+6. **Buy Me a Coffee**: Coffee cup with steam - Detailed mug
+7. **GitHub Contribute**: Official GitHub Octopus Logo - Recognizable OSS symbol
+8. **Feedback Section**: Chat bubble - Speech bubble design
+9. **Give Feedback**: Speech bubble - Communication symbol
+
+**Power-Up Icons (4 redesigned):**
+1. **Enhancements Title**: Lightning bolt - Filled with glow
+2. **Undo**: Curved arrow (counter-clockwise) - Clear reverse action
+3. **Hint**: Lightbulb - Clean bulb with base and socket
+4. **Remove**: Trash bin with lid - Professional delete symbol
+
+**Icon Features:**
+- Stroke: Cyan (#00ffff) default
+- Hover: Magenta (#ff00ff) with glow
+- Size: 20px (menu), 28px (power-ups)
+- Stroke-width: 2px (menu), 2.5px (power-ups)
+- Transitions: 0.3s smooth
+- Filter: drop-shadow(0 0 8px) on hover
+
+### 🐛 Critical Bug Fixes
+
+**1. Milestone Notifications Language Support Fixed:**
+- **Issue**: Notifications like "UNSTOPPABLE!" stuck in Turkish
+- **Root Cause**: `t()` function used cached variable instead of reading localStorage
+- **Fix**: Modified `t()` to always read current language from localStorage
+- **Result**: All dynamic notifications now respond to language changes instantly
+
+**2. Score Display Not Updating:**
+- **Issue**: Score updated in GameState but not displayed
+- **Root Cause**: MovementEngine didn't call display update
+- **Fix**: Added `ScoreManager.updateScoreDisplay()` after all merges
+- **Result**: Score and best score now update in real-time
+
+**3. Undo Button Always Disabled:**
+- **Issue**: Power-up display not updating after moves
+- **Root Cause**: Missing display update in GameController
+- **Fix**: Added `PowerUps.updateDisplay()` after successful moves
+- **Result**: Undo button enables after first move
+
+**4. Hint Button Icon Broken:**
+- **Issue**: Complex SVG paths not rendering properly
+- **Root Cause**: Too many elements with complex coordinates
+- **Fix**: Replaced with simple 3-path lightbulb design
+- **Result**: Clean, recognizable icon that renders perfectly
+
+**5. Ghost Mode Button Duplicate Icons:**
+- **Issue**: SVG icon and emoji showing together
+- **Root Cause**: Translation text included "👻" emoji
+- **Fix**: Removed emoji from both TR/EN translations
+- **Result**: Clean button with only SVG icon
+
+### ✨ New Features
+
+**GitHub Contribution Link:**
+- Added to hamburger menu after "Buy Me a Coffee"
+- Official GitHub logo (SVG)
+- Full translations (TR/EN):
+  - EN: "You can contribute to the project here"
+  - TR: "Projeye buradan katkıda bulunabilirsiniz"
+- Opens in new tab with security attributes
+- Themed with neon cyan/magenta colors
+
+### 📋 Files Modified
+
+**JavaScript:**
+- `src/js/config/translations.js` - Fixed `t()` function, removed emojis, added GitHub translation
+- `src/js/core/MovementEngine.js` - Added ScoreManager.updateScoreDisplay() calls
+- `src/js/core/GameController.js` - Added PowerUps.updateDisplay() call
+
+**HTML:**
+- `index.html` - Complete icon redesign with SVG for all buttons
+- Added GitHub link with official logo
+- Fixed hint button icon
+- Removed emoji from ghost mode button text
+
+**CSS:**
+- `style.css` - Added comprehensive SVG icon styling:
+  - `.menu-item-icon svg` - 20px icons with stroke
+  - `.menu-svg-icon` - 18px section icons
+  - `.title-svg-icon` - 16px title icons
+  - `.powerup-icon svg` - 28px with hover effects
+  - Hover transitions with magenta glow
+  - Drop-shadow filters for neon effect
+
+### 🎯 Design System
+
+**Icon Color Scheme:**
+```css
+Default: #00ffff (cyan)
+Hover: #ff00ff (magenta)
+Disabled: rgba(255,255,255,0.2)
+Glow: drop-shadow(0 0 8px color)
+```
+
+**Size Hierarchy:**
+- Menu section icons: 18px
+- Menu item icons: 20px  
+- Title icons: 16px
+- Power-up icons: 28px
+
+**Transition:**
+- All transitions: 0.3s ease
+- Smooth color shifts
+- Glow intensity increases on hover
+
+### ✅ Testing Results
+
+**All Features Verified:**
+- ✅ Score updates in real-time
+- ✅ Best score tracks correctly
+- ✅ Undo button enables after moves
+- ✅ All 13 SVG icons render perfectly
+- ✅ Hover effects work on all icons
+- ✅ Language switching updates all notifications
+- ✅ Milestone notifications show in correct language
+- ✅ GitHub link opens correctly
+- ✅ All power-ups functional
+- ✅ No console errors
+
+### 📊 Technical Improvements
+
+**Code Quality:**
+- Cleaner icon system (SVG vs emojis)
+- Better state synchronization
+- Improved display updates
+- Proper localStorage usage
+- Professional icon appearance
+
+**Performance:**
+- SVG icons load instantly (inline)
+- No external image requests
+- Smooth CSS transitions
+- Efficient localStorage reads
+
+**Maintainability:**
+- Consistent icon implementation
+- Easy to update colors/sizes
+- Clear CSS organization
+- Reusable icon styles
+
+---
+
 ## Version 2.3.0 - Modular Architecture (2025-10-11)
 
 ### 🎉 Complete Code Modularization
