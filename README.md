@@ -208,7 +208,7 @@ vercel --prod
 - ⭐ Star the repository
 - 🐛 Report bugs
 - 💡 Suggest features
-- ☕ [Buy me a coffee](https://buymeacoffee.com/aethrox)
+- ☕ [Buy me a coffee](buymeacoffee.com/kaan.demirel)
 
 ---
 
