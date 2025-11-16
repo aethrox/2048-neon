@@ -1,4 +1,6 @@
-# 2048 Neon Game - Cyberpunk Edition
+<h1 align="center"> 
+  2048 Neon Game - Cyberpunk Edition
+</h1>
 
 <div align="center">
   <img src="favicon.svg" alt="2048 Neon Game Icon" width="120" height="120">
