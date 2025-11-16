@@ -13,7 +13,7 @@
 
 A modern, modular implementation of the classic 2048 game with neon aesthetics, cyberpunk visuals, advanced features, and clean architecture.
 
-## 🎮 [Play Now](github.com/aethrox)
+## 🎮 [Play Now](https//www.github.com/aethrox)
 
 ## ✨ Features
 
