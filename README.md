@@ -169,8 +169,8 @@ MIT License - see [LICENSE](LICENSE) file
 
 **Aethrox**
 - GitHub: [@aethrox](https://github.com/aethrox)
-- Website: [aethrox.com](https://aethrox.com)
-- Support: [buymeacoffee.com/aethrox](https://buymeacoffee.com/aethrox)
+- Website: [aethrox.com](https://aethrox.me)
+- Support: [buymeacoffee.com](buymeacoffee.com/kaan.demirel)
 
 ## 📚 Documentation
 
