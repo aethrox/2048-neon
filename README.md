@@ -9,11 +9,11 @@
 
 ![Version](https://img.shields.io/badge/version-2.4.1-blue)
 ![License](https://img.shields.io/badge/license-MIT-green)
-![Status](https://img.shields.io/badge/status-production-brightgreen)
+![Status](https://img.shields.io/badge/status-offline-red)
 
 A modern, modular implementation of the classic 2048 game with neon aesthetics, cyberpunk visuals, advanced features, and clean architecture.
 
-## 🎮 [Play Now](https://2048-neon.netlify.app/)
+## 🎮 [Play Now]
 
 ## ✨ Features
 
